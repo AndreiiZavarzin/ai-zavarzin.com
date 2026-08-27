@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Политика конфиденциальности — Андрей Заварзин</title>
+  <meta name="description" content="Политика конфиденциальности сайта ai-zavarzin.com: какие данные могут собираться через форму, для чего они используются и как запросить их изменение или удаление.">
+  <link rel="canonical" href="https://ai-zavarzin.com/privacy">
+
+  <!-- ═══ FAVICON ═══ -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-X8JF3RTJWQ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-X8JF3RTJWQ');
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* ── CSS Variables (same palette as main site) ── */
+    :root {
+      --bg:       #E7E7E5;
+      --bg-card:  #F7F7F5;
+      --bg2:      #F0F0EE;
+      --bg3:      #E0E0DE;
+      --bg-dark:  #202326;
+      --text:     #202326;
+      --text-muted: #4F555B;
+      --text-dim: #747B82;
+      --text-light: #F7F7F5;
+      --blue:      #173F67;
+      --blue-light:#2D6A91;
+      --blue-dim:  rgba(23,63,103,0.10);
+      --blue-glow: rgba(23,63,103,0.22);
+      --border:    rgba(0,0,0,0.07);
+      --border2:   rgba(0,0,0,0.13);
+      --border-blue: rgba(23,63,103,0.18);
+      --radius:    14px;
+      --radius-lg: 22px;
+      --shadow:    0 4px 24px rgba(0,0,0,0.08);
+      --shadow-blue: 0 8px 32px rgba(23,63,103,0.18), 0 2px 8px rgba(0,0,0,0.08);
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --transition: 0.25s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg:       #111417;
+      --bg-card:  #181C20;
+      --bg2:      #141719;
+      --bg3:      #1C2026;
+      --bg-dark:  #0C0F12;
+      --text:          #DCE2EA;
+      --text-muted:    #8E99A4;
+      --text-dim:      #636E78;
+      --text-light:    #DCE2EA;
+      --border:        rgba(255,255,255,0.07);
+      --border2:       rgba(255,255,255,0.12);
+      --border-blue:   rgba(45,106,145,0.40);
+      --blue-dim:      rgba(45,106,145,0.16);
+      --blue-glow:     rgba(45,106,145,0.30);
+      --shadow:        0 4px 24px rgba(0,0,0,0.40);
+      --shadow-blue:   0 8px 32px rgba(23,63,103,0.55), 0 2px 8px rgba(0,0,0,0.40);
+    }
+
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      font-size: 16px;
+      transition: background var(--transition), color var(--transition);
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    .priv-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(8px);
+    }
+    .priv-header-inner {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .priv-site-name {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--blue);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      white-space: nowrap;
+    }
+    .priv-site-name:hover { color: var(--blue-light); }
+    .priv-header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .priv-back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border2);
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .priv-back-link:hover {
+      color: var(--blue);
+      border-color: var(--border-blue);
+      background: var(--blue-dim);
+    }
+    .theme-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: 1px solid var(--border2);
+      background: var(--bg3);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .theme-btn:hover {
+      background: var(--blue-dim);
+      border-color: var(--border-blue);
+      color: var(--blue);
+    }
+
+    /* ── Main content ── */
+    .priv-main {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 56px 24px 80px;
+    }
+
+    /* ── Page title ── */
+    .priv-title {
+      font-size: clamp(1.6rem, 4vw, 2.2rem);
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+    .priv-date {
+      font-size: 0.875rem;
+      color: var(--text-dim);
+      margin-bottom: 48px;
+      display: block;
+    }
+
+    /* ── Sections ── */
+    .priv-section {
+      margin-bottom: 36px;
+    }
+    .priv-section h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--blue);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-blue);
+    }
+    .priv-section p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.75;
+      margin-bottom: 10px;
+    }
+    .priv-section p:last-child { margin-bottom: 0; }
+    .priv-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 10px;
+    }
+    .priv-section ul li {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      padding: 3px 0 3px 20px;
+      position: relative;
+    }
+    .priv-section ul li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue-light);
+      opacity: 0.7;
+    }
+
+    /* ── TG link ── */
+    .priv-tg-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-decoration: none;
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-blue);
+      background: var(--blue-dim);
+      transition: var(--transition);
+      margin-top: 6px;
+    }
+    .priv-tg-link:hover {
+      background: var(--blue-glow);
+      box-shadow: var(--shadow-blue);
+      transform: translateY(-1px);
+    }
+
+    /* ── Footer back link ── */
+    .priv-footer {
+      margin-top: 56px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .priv-footer a {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .priv-footer a:hover { color: var(--blue); }
+    .priv-footer-copy {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .priv-header-inner { padding: 0 16px; }
+      .priv-main { padding: 36px 16px 60px; }
+      .priv-back-link span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="priv-header">
+    <div class="priv-header-inner">
+      <a href="https://ai-zavarzin.com/" class="priv-site-name">Андрей Заварзин</a>
+      <div class="priv-header-right">
+        <a href="https://ai-zavarzin.com/" class="priv-back-link">
+          <i class="fas fa-arrow-left"></i>
+          <span>Вернуться на сайт</span>
+        </a>
+        <button class="theme-btn" id="themeBtn" aria-label="Переключить тему">
+          <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="priv-main">
+
+    <h1 class="priv-title">Политика конфиденциальности</h1>
+    <span class="priv-date">Последнее обновление: 18 августа 2026 года</span>
+
+    <!-- 1 -->
+    <div class="priv-section">
+      <h2>1. Какие данные могут собираться</h2>
+      <p>При заполнении формы пользователь может добровольно предоставить:</p>
+      <ul>
+        <li>имя;</li>
+        <li>имя пользователя или контакт в Telegram;</li>
+        <li>адрес электронной почты;</li>
+        <li>номер телефона, если соответствующее поле будет добавлено в форму;</li>
+        <li>предпочтительный способ связи;</li>
+        <li>ответы на вопросы анкеты;</li>
+        <li>другую информацию, которую пользователь добровольно укажет в свободном текстовом поле.</li>
+      </ul>
+      <p>Собираются только те данные, которые необходимы для обработки заявки и последующей связи с пользователем.</p>
+    </div>
+
+    <!-- 2 -->
+    <div class="priv-section">
+      <h2>2. Цель обработки данных</h2>
+      <p>Предоставленные данные используются для:</p>
+      <ul>
+        <li>обработки заявки пользователя;</li>
+        <li>обратной связи;</li>
+        <li>общения через Telegram или электронную почту;</li>
+        <li>телефонного звонка, если пользователь добровольно укажет номер телефона;</li>
+        <li>понимания интересов и вопросов пользователя для подготовки ответа;</li>
+        <li>ведения истории обращений;</li>
+        <li>улучшения работы формы и взаимодействия с посетителями сайта.</li>
+      </ul>
+      <p>Персональные данные не используются для целей, несовместимых с указанными выше, без получения отдельного согласия пользователя.</p>
+    </div>
+
+    <!-- 3 -->
+    <div class="priv-section">
+      <h2>3. Согласие пользователя</h2>
+      <p>Перед отправкой формы пользователь самостоятельно устанавливает отметку о согласии на обработку предоставленных данных.</p>
+      <p>Согласие является добровольным.</p>
+      <p>Если пользователь не согласен с обработкой данных, он может не отправлять форму.</p>
+      <p>Пользователь может отозвать ранее предоставленное согласие, обратившись по контактам, указанным в настоящей Политике.</p>
+    </div>
+
+    <!-- 4 -->
+    <div class="priv-section">
+      <h2>4. Используемые сервисы</h2>
+      <p>Для работы формы используется сервис <strong>Tally</strong>.</p>
+      <p>После отправки формы информация может:</p>
+      <ul>
+        <li>сохраняться в системе Tally;</li>
+        <li>отображаться владельцу сайта в разделе заявок;</li>
+        <li>направляться владельцу сайта по электронной почте.</li>
+      </ul>
+      <p>Сайт размещён с использованием инфраструктуры <strong>Netlify</strong>.</p>
+      <p>Для получения уведомлений и обработки электронной почты могут использоваться почтовые сервисы.</p>
+      <p>Эти сервисы могут обрабатывать технические и персональные данные в объёме, необходимом для предоставления своих услуг.</p>
+    </div>
+
+    <!-- 5 -->
+    <div class="priv-section">
+      <h2>5. Передача данных третьим лицам</h2>
+      <p>Персональные данные не продаются и не передаются третьим лицам для их самостоятельного рекламного или маркетингового использования.</p>
+      <p>Доступ к данным могут получать сервисы, технически необходимые для работы сайта и формы, включая Tally, Netlify и используемые почтовые сервисы.</p>
+      <p>Передача данных также может осуществляться в случаях, предусмотренных законодательством.</p>
+    </div>
+
+    <!-- 6 -->
+    <div class="priv-section">
+      <h2>6. Срок хранения</h2>
+      <p>Данные хранятся не дольше, чем это необходимо для обработки заявки, общения с пользователем и разумного ведения истории обращений.</p>
+      <p>Пользователь может обратиться с просьбой удалить предоставленные им данные.</p>
+    </div>
+
+    <!-- 7 -->
+    <div class="priv-section">
+      <h2>7. Права пользователя</h2>
+      <p>Пользователь имеет право:</p>
+      <ul>
+        <li>узнать, какие его персональные данные обрабатываются;</li>
+        <li>получить информацию о цели их обработки;</li>
+        <li>уточнить или исправить свои данные;</li>
+        <li>обратиться с просьбой об их удалении;</li>
+        <li>отозвать ранее предоставленное согласие;</li>
+        <li>получить информацию о порядке обработки своих данных.</li>
+      </ul>
+    </div>
+
+    <!-- 8 -->
+    <div class="priv-section">
+      <h2>8. Безопасность данных</h2>
+      <p>Принимаются разумные организационные и технические меры для защиты полученных данных от несанкционированного доступа, изменения, распространения или уничтожения.</p>
+      <p>При этом ни один способ передачи или хранения информации в интернете не обеспечивает абсолютной безопасности.</p>
+    </div>
+
+    <!-- 9 -->
+    <div class="priv-section">
+      <h2>9. Контакт по вопросам персональных данных</h2>
+      <p>По вопросам обработки, изменения или удаления своих данных пользователь может связаться через Telegram:</p>
+      <a href="https://t.me/ai_arharovec" target="_blank" rel="noopener noreferrer" class="priv-tg-link">
+        <i class="fab fa-telegram"></i>
+        t.me/ai_arharovec
+      </a>
+    </div>
+
+    <!-- 10 -->
+    <div class="priv-section">
+      <h2>10. Изменения Политики</h2>
+      <p>Настоящая Политика может обновляться при изменении состава собираемых данных, функциональности сайта или используемых сервисов.</p>
+      <p>Актуальная версия Политики публикуется на сайте <a href="https://ai-zavarzin.com/" style="color:var(--blue);text-decoration:none;font-weight:500;">ai-zavarzin.com</a>.</p>
+    </div>
+
+    <!-- Footer -->
+    <div class="priv-footer">
+      <a href="https://ai-zavarzin.com/">
+        <i class="fas fa-arrow-left"></i>
+        Вернуться на сайт
+      </a>
+      <span class="priv-footer-copy">ai-zavarzin.com</span>
+    </div>
+
+  </main>
+
+  <script>
+    (function () {
+      var btn = document.getElementById('themeBtn');
+      var icon = document.getElementById('themeIcon');
+      var html = document.documentElement;
+
+      function applyTheme(dark) {
+        html.setAttribute('data-theme', dark ? 'dark' : 'light');
+        icon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+        icon.style.color = dark ? '#F5C518' : '';
+        icon.style.filter = dark ? 'drop-shadow(0 0 4px rgba(245,197,24,0.6))' : '';
+        localStorage.setItem('theme', dark ? 'dark' : 'light');
+      }
+
+      // Init from saved preference
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(saved === 'dark' || (!saved && prefersDark));
+
+      btn.addEventListener('click', function () {
+        applyTheme(html.getAttribute('data-theme') !== 'dark');
+      });
+    }());
+  </script>
+
+</body>
+</html>
