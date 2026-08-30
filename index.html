@@ -3900,5 +3900,909 @@ if (themeToggle) {
 </script>
 <!-- ══ END RISK DISCLAIMER MODAL ══════════════════════════════════════════ -->
 
+
+<!-- ══ GIFT MODAL CSS ══════════════════════════════════════════════════════ -->
+<style>
+/* ── Overlay ──────────────────────────────────────────────────────────────── */
+#giftModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9100;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+#giftModal.is-open { display: flex; }
+
+/* ── Backdrop ─────────────────────────────────────────────────────────────── */
+#giftModalBackdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  animation: giftFadeIn 0.22s ease;
+}
+@keyframes giftFadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes giftSlideUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────────── */
+#giftModalCard {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: var(--bg-card);
+  border: 1px solid var(--border-blue);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-blue), 0 0 0 1px rgba(255,255,255,0.04);
+  padding: 36px 40px 32px;
+  animation: giftSlideUp 0.26s ease;
+  scroll-behavior: smooth;
+}
+@media (max-width: 560px) {
+  #giftModalCard {
+    padding: 28px 20px 24px;
+    max-height: calc(100dvh - 24px);
+  }
+}
+@media (max-width: 360px) {
+  #giftModalCard { padding: 22px 16px 20px; }
+}
+
+/* ── Close button ─────────────────────────────────────────────────────────── */
+#giftModalClose {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border2);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  transition: var(--transition);
+  flex-shrink: 0;
+  z-index: 2;
+}
+#giftModalClose:hover,
+#giftModalClose:focus-visible {
+  background: var(--bg3);
+  color: var(--text);
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.gift-modal-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 22px;
+  padding-right: 28px;
+}
+.gift-modal-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.gift-modal-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 5px;
+}
+.gift-modal-subtitle {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* ── Form groups ──────────────────────────────────────────────────────────── */
+.gift-form-group { margin-bottom: 18px; }
+
+.gift-form-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+/* ── Text inputs ──────────────────────────────────────────────────────────── */
+.gift-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  background: var(--bg3);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 0.92rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  -webkit-appearance: none;
+}
+.gift-input::placeholder { color: var(--text-dim); }
+.gift-input:focus {
+  outline: none;
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-dim);
+}
+.gift-input.is-error {
+  border-color: #d9534f;
+  box-shadow: 0 0 0 3px rgba(217,83,79,0.14);
+}
+[data-theme="dark"] .gift-input.is-error {
+  border-color: #e57373;
+  box-shadow: 0 0 0 3px rgba(229,115,115,0.15);
+}
+
+/* ── Radio grid ───────────────────────────────────────────────────────────── */
+.gift-radio-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 4px;
+}
+@media (max-width: 400px) {
+  .gift-radio-grid { grid-template-columns: 1fr; }
+}
+
+.gift-radio-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 12px;
+  border: 1.5px solid var(--border2);
+  border-radius: 10px;
+  background: var(--bg3);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 44px;
+  user-select: none;
+}
+.gift-radio-card:hover {
+  border-color: var(--blue-light, #2D6A91);
+  background: var(--bg2);
+}
+.gift-radio-card:has(input:checked) {
+  border-color: #C8A930;
+  background: rgba(200,169,48,0.07);
+  box-shadow: 0 0 0 3px rgba(200,169,48,0.14);
+}
+[data-theme="dark"] .gift-radio-card:has(input:checked) {
+  background: rgba(200,169,48,0.10);
+}
+/* Fallback for browsers that don't support :has() */
+.gift-radio-card.is-selected {
+  border-color: #C8A930 !important;
+  background: rgba(200,169,48,0.07) !important;
+  box-shadow: 0 0 0 3px rgba(200,169,48,0.14) !important;
+}
+
+.gift-radio-card input[type="radio"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid var(--border2);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  margin-top: 1px;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  flex-shrink: 0;
+  position: relative;
+}
+.gift-radio-card input[type="radio"]:checked {
+  border-color: #C8A930;
+  background: #C8A930;
+}
+.gift-radio-card input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1a1200;
+}
+.gift-radio-card input[type="radio"]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.gift-radio-card span {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  transition: color 0.2s ease;
+}
+.gift-radio-card:has(input:checked) span,
+.gift-radio-card.is-selected span {
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* ── Errors ───────────────────────────────────────────────────────────────── */
+.gift-error {
+  display: none;
+  font-size: 0.8rem;
+  color: #c0392b;
+  margin-top: 5px;
+  padding-left: 2px;
+}
+[data-theme="dark"] .gift-error { color: #ef9a9a; }
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+.gift-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 20px 0 18px;
+}
+
+/* ── Privacy checkbox ─────────────────────────────────────────────────────── */
+.gift-privacy {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  cursor: pointer;
+  margin-bottom: 6px;
+  -webkit-tap-highlight-color: transparent;
+}
+.gift-privacy input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  border: 2px solid var(--border2);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s ease, background 0.2s ease;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+.gift-privacy input[type="checkbox"]:checked {
+  background: #C8A930;
+  border-color: #C8A930;
+}
+.gift-privacy input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 6px;
+  width: 5px;
+  height: 9px;
+  border: 2px solid #1a1200;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+.gift-privacy input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+.gift-privacy-label {
+  font-size: 0.83rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.gift-privacy-label a {
+  color: var(--blue);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.gift-privacy-label a:hover { color: var(--blue-light, #2D6A91); }
+[data-theme="dark"] .gift-privacy-label a { color: #4DA8DA; }
+
+/* ── Submit button ────────────────────────────────────────────────────────── */
+.gift-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px 24px;
+  border: none;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #C8A930 0%, #E0C040 60%, #C8A930 100%);
+  color: #1a1200;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(200,169,48,0.38), 0 2px 6px rgba(0,0,0,0.10);
+  -webkit-tap-highlight-color: transparent;
+}
+.gift-submit-btn:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(200,169,48,0.50), 0 2px 8px rgba(0,0,0,0.12);
+}
+.gift-submit-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.97);
+}
+.gift-submit-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+
+/* ── Success state ────────────────────────────────────────────────────────── */
+.gift-success {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 12px 4px 8px;
+}
+.gift-success-emoji {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  animation: giftBounce 0.5s ease;
+}
+@keyframes giftBounce {
+  0%   { transform: scale(0.7); opacity: 0; }
+  60%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+.gift-success-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  margin-bottom: 10px;
+}
+.gift-success-text {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 26px;
+  max-width: 340px;
+}
+.gift-tg-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 28px;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #C8A930 0%, #E0C040 60%, #C8A930 100%);
+  color: #1a1200;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: filter 0.2s ease, transform 0.18s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 16px rgba(200,169,48,0.38), 0 2px 6px rgba(0,0,0,0.10);
+  letter-spacing: -0.01em;
+}
+.gift-tg-btn:hover {
+  filter: brightness(1.07);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 22px rgba(200,169,48,0.50);
+  color: #1a1200;
+}
+.gift-tg-btn:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+}
+</style>
+<!-- ══ END GIFT MODAL CSS ═══════════════════════════════════════════════════ -->
+
+
+<!-- ══ GIFT MODAL ══════════════════════════════════════════════════════════ -->
+<div id="giftModal" role="dialog" aria-modal="true" aria-labelledby="giftModalTitle">
+  <div id="giftModalBackdrop"></div>
+  <div id="giftModalCard" tabindex="-1">
+
+    <button id="giftModalClose"
+            data-i18n-aria-label="gift_aria_close"
+            aria-label="Закрыть">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <!-- ── FORM STATE ────────────────────────────────────────────────────── -->
+    <div id="giftFormState">
+      <div class="gift-modal-header">
+        <div class="gift-modal-icon" aria-hidden="true">🎁</div>
+        <div>
+          <div class="gift-modal-title"
+               id="giftModalTitle"
+               data-i18n="gift_title">Забрать подарок 🎁</div>
+          <div class="gift-modal-subtitle"
+               data-i18n="gift_subtitle">Ответь на 3 коротких вопроса — и получи специальный доступ к боту.</div>
+        </div>
+      </div>
+
+      <form id="giftForm" novalidate autocomplete="off">
+
+        <!-- Honeypot anti-spam field (hidden from real users) -->
+        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;pointer-events:none;tab-index:-1" aria-hidden="true">
+          <input type="text" name="website" tabindex="-1" autocomplete="off" value="">
+        </div>
+
+        <!-- Q1: Name -->
+        <div class="gift-form-group">
+          <label class="gift-form-label"
+                 for="giftName"
+                 data-i18n="gift_q1_label">Как тебя зовут?</label>
+          <input type="text"
+                 id="giftName"
+                 class="gift-input"
+                 placeholder="Имя"
+                 data-i18n-placeholder="gift_q1_ph"
+                 autocomplete="given-name"
+                 aria-required="true"
+                 aria-describedby="giftNameError">
+          <div class="gift-error"
+               id="giftNameError"
+               role="alert"
+               data-i18n="gift_err_name">Пожалуйста, введи своё имя.</div>
+        </div>
+
+        <!-- Q2: Contact -->
+        <div class="gift-form-group">
+          <label class="gift-form-label"
+                 for="giftContact"
+                 data-i18n="gift_q2_label">Как с тобой связаться?</label>
+          <input type="text"
+                 id="giftContact"
+                 class="gift-input"
+                 placeholder="Telegram @username или e-mail"
+                 data-i18n-placeholder="gift_q2_ph"
+                 autocomplete="off"
+                 aria-required="true"
+                 aria-describedby="giftContactError">
+          <div class="gift-error"
+               id="giftContactError"
+               role="alert"
+               data-i18n="gift_err_contact">Пожалуйста, укажи способ связи.</div>
+        </div>
+
+        <!-- Q3: Interest -->
+        <div class="gift-form-group">
+          <div class="gift-form-label"
+               id="giftQ3Label"
+               data-i18n="gift_q3_label">Что тебе сейчас интереснее всего?</div>
+          <div class="gift-radio-grid"
+               role="radiogroup"
+               aria-labelledby="giftQ3Label"
+               aria-describedby="giftInterestError">
+            <label class="gift-radio-card">
+              <input type="radio" name="giftInterest" value="finances">
+              <span data-i18n="gift_q3_opt1">Навести порядок в личных финансах</span>
+            </label>
+            <label class="gift-radio-card">
+              <input type="radio" name="giftInterest" value="capital">
+              <span data-i18n="gift_q3_opt2">Начать создавать капитал</span>
+            </label>
+            <label class="gift-radio-card">
+              <input type="radio" name="giftInterest" value="income">
+              <span data-i18n="gift_q3_opt3">Найти дополнительный источник дохода</span>
+            </label>
+            <label class="gift-radio-card">
+              <input type="radio" name="giftInterest" value="try">
+              <span data-i18n="gift_q3_opt4">Просто хочу попробовать подарок</span>
+            </label>
+          </div>
+          <div class="gift-error"
+               id="giftInterestError"
+               role="alert"
+               data-i18n="gift_err_interest">Пожалуйста, выбери один из вариантов.</div>
+        </div>
+
+        <div class="gift-divider"></div>
+
+        <!-- Privacy checkbox -->
+        <label class="gift-privacy" for="giftPrivacy">
+          <input type="checkbox"
+                 id="giftPrivacy"
+                 aria-required="true"
+                 aria-describedby="giftPrivacyError">
+          <span class="gift-privacy-label"
+                data-i18n-html="gift_privacy_html">Я согласен с <a href="./privacy/index.html" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a> и обработкой персональных данных.</span>
+        </label>
+        <div class="gift-error"
+             id="giftPrivacyError"
+             role="alert"
+             data-i18n="gift_err_privacy">Необходимо согласие с политикой конфиденциальности.</div>
+
+        <!-- Submit -->
+        <button type="submit"
+                class="gift-submit-btn"
+                id="giftSubmit"
+                data-i18n="gift_submit">Получить подарок 🎁</button>
+
+        <!-- Submit error banner (shown only on backend error) -->
+        <div class="gift-error gift-submit-error"
+             role="alert"
+             hidden>⚠ Произошла ошибка. Попробуйте ещё раз.</div>
+
+      </form>
+    </div><!-- /#giftFormState -->
+
+    <!-- ── SUCCESS STATE ─────────────────────────────────────────────────── -->
+    <div id="giftSuccessState" hidden>
+      <div class="gift-success">
+        <div class="gift-success-emoji" aria-hidden="true">🎁</div>
+        <div class="gift-success-title"
+             data-i18n="gift_success_title">Готово! 🎁</div>
+        <div class="gift-success-text"
+             data-i18n="gift_success_text">Твой подарок готов. Нажми кнопку ниже, чтобы открыть его в Telegram.</div>
+        <!-- Telegram deep link with gift source param -->
+        <a href="https://t.me/FamiBudgetBot?start=gift_site"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="gift-tg-btn"
+           id="giftTgBtn"
+           data-i18n="gift_success_btn">Открыть подарок в Telegram</a>
+      </div>
+    </div><!-- /#giftSuccessState -->
+
+  </div><!-- /#giftModalCard -->
+</div><!-- /#giftModal -->
+<!-- ══ END GIFT MODAL ═══════════════════════════════════════════════════════ -->
+
+
+<!-- ══ GIFT MODAL JS ═══════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── TRANSLATIONS ─────────────────────────────────────────────────────── */
+  var GIFT_T = {
+    ru: {
+      gift_aria_close:   'Закрыть',
+      gift_title:        'Забрать подарок 🎁',
+      gift_subtitle:     'Ответь на 3 коротких вопроса — и получи специальный доступ к боту.',
+      gift_q1_label:     'Как тебя зовут?',
+      gift_q1_ph:        'Имя',
+      gift_q2_label:     'Как с тобой связаться?',
+      gift_q2_ph:        'Telegram @username или e-mail',
+      gift_q3_label:     'Что тебе сейчас интереснее всего?',
+      gift_q3_opt1:      'Навести порядок в личных финансах',
+      gift_q3_opt2:      'Начать создавать капитал',
+      gift_q3_opt3:      'Найти дополнительный источник дохода',
+      gift_q3_opt4:      'Просто хочу попробовать подарок',
+      gift_privacy_html: 'Я согласен с <a href="./privacy/index.html" target="_blank" rel="noopener noreferrer">Политикой конфиденциальности</a> и обработкой персональных данных.',
+      gift_submit:       'Получить подарок 🎁',
+      gift_success_title:'Готово! 🎁',
+      gift_success_text: 'Твой подарок готов. Нажми кнопку ниже, чтобы открыть его в Telegram.',
+      gift_success_btn:  'Открыть подарок в Telegram',
+      gift_err_name:     'Пожалуйста, введи своё имя.',
+      gift_err_contact:  'Пожалуйста, укажи способ связи.',
+      gift_err_interest: 'Пожалуйста, выбери один из вариантов.',
+      gift_err_privacy:  'Необходимо согласие с политикой конфиденциальности.'
+    },
+    ua: {
+      gift_aria_close:   'Закрити',
+      gift_title:        'Забрати подарунок 🎁',
+      gift_subtitle:     'Відповідай на 3 короткі запитання — і отримай спеціальний доступ до бота.',
+      gift_q1_label:     'Як тебе звати?',
+      gift_q1_ph:        "Ім'я",
+      gift_q2_label:     "Як з тобою зв'язатися?",
+      gift_q2_ph:        'Telegram @username або e-mail',
+      gift_q3_label:     'Що тобі зараз цікавіше за все?',
+      gift_q3_opt1:      'Навести лад в особистих фінансах',
+      gift_q3_opt2:      'Почати створювати капітал',
+      gift_q3_opt3:      'Знайти додаткове джерело доходу',
+      gift_q3_opt4:      'Просто хочу спробувати подарунок',
+      gift_privacy_html: 'Я погоджуюся з <a href="./uk/privacy/index.html" target="_blank" rel="noopener noreferrer">Політикою конфіденційності</a> та обробкою персональних даних.',
+      gift_submit:       'Отримати подарунок 🎁',
+      gift_success_title:'Готово! 🎁',
+      gift_success_text: 'Твій подарунок готовий. Натисни кнопку нижче, щоб відкрити його в Telegram.',
+      gift_success_btn:  'Відкрити подарунок у Telegram',
+      gift_err_name:     "Будь ласка, введи своє ім'я.",
+      gift_err_contact:  'Будь ласка, вкажи спосіб зв\'язку.',
+      gift_err_interest: 'Будь ласка, обери один з варіантів.',
+      gift_err_privacy:  'Необхідна згода з політикою конфіденційності.'
+    },
+    en: {
+      gift_aria_close:   'Close',
+      gift_title:        'Get your gift 🎁',
+      gift_subtitle:     'Answer 3 quick questions and get special access to the bot.',
+      gift_q1_label:     "What's your name?",
+      gift_q1_ph:        'Name',
+      gift_q2_label:     'How can I contact you?',
+      gift_q2_ph:        'Telegram @username or email',
+      gift_q3_label:     'What interests you most right now?',
+      gift_q3_opt1:      'Get my personal finances in order',
+      gift_q3_opt2:      'Start building capital',
+      gift_q3_opt3:      'Find an additional source of income',
+      gift_q3_opt4:      'I just want to try the gift',
+      gift_privacy_html: 'I agree to the <a href="./privacy/index.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a> and the processing of my personal data.',
+      gift_submit:       'Get my gift 🎁',
+      gift_success_title:'Done! 🎁',
+      gift_success_text: 'Your gift is ready. Tap the button below to open it in Telegram.',
+      gift_success_btn:  'Open my gift in Telegram',
+      gift_err_name:     'Please enter your name.',
+      gift_err_contact:  'Please provide a way to contact you.',
+      gift_err_interest: 'Please select one option.',
+      gift_err_privacy:  'Please accept the privacy policy.'
+    }
+  };
+
+  /* ── Extend the existing T object with gift translations ──────────────── */
+  if (typeof T !== 'undefined') {
+    Object.assign(T.ru, GIFT_T.ru);
+    Object.assign(T.ua, GIFT_T.ua);
+    Object.assign(T.en, GIFT_T.en);
+  }
+
+  /* ── UTM helper ───────────────────────────────────────────────────────── */
+  function getUtmParams() {
+    try {
+      var p = new URLSearchParams(window.location.search);
+      return {
+        utm_source:   p.get('utm_source')   || '',
+        utm_medium:   p.get('utm_medium')   || '',
+        utm_campaign: p.get('utm_campaign') || '',
+        utm_content:  p.get('utm_content')  || '',
+        utm_term:     p.get('utm_term')     || ''
+      };
+    } catch (e) {
+      return { utm_source:'', utm_medium:'', utm_campaign:'', utm_content:'', utm_term:'' };
+    }
+  }
+
+  /* ── DOM refs ─────────────────────────────────────────────────────────── */
+  var modal        = document.getElementById('giftModal');
+  var backdrop     = document.getElementById('giftModalBackdrop');
+  var card         = document.getElementById('giftModalCard');
+  var closeBtn     = document.getElementById('giftModalClose');
+  var form         = document.getElementById('giftForm');
+  var formState    = document.getElementById('giftFormState');
+  var successState = document.getElementById('giftSuccessState');
+  var nameInput    = document.getElementById('giftName');
+  var contactInput = document.getElementById('giftContact');
+  var privacyCb    = document.getElementById('giftPrivacy');
+  var honeypot     = form ? form.querySelector('input[name="website"]') : null;
+
+  if (!modal) return; // Guard: bail if modal not in DOM
+
+  /* ── Open / close ─────────────────────────────────────────────────────── */
+  var prevFocus = null;
+
+  function openModal(e) {
+    if (e) e.preventDefault();
+    prevFocus = document.activeElement;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function () { if (card) card.focus(); }, 60);
+  }
+
+  function closeModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (prevFocus) { prevFocus.focus(); prevFocus = null; }
+  }
+
+  /* ── Intercept gift buttons ───────────────────────────────────────────── */
+  var botFloat = document.getElementById('botFloat');
+  if (botFloat) botFloat.addEventListener('click', openModal);
+
+  document.querySelectorAll('.mobile-header-gift').forEach(function (el) {
+    el.addEventListener('click', openModal);
+  });
+
+  /* ── Close triggers ───────────────────────────────────────────────────── */
+  if (closeBtn)  closeBtn.addEventListener('click', closeModal);
+  if (backdrop)  backdrop.addEventListener('click', closeModal);
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+
+  /* ── Focus trap ───────────────────────────────────────────────────────── */
+  if (card) {
+    card.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab') return;
+      var focusable = Array.from(card.querySelectorAll(
+        'a[href],button:not([disabled]),input:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])'
+      )).filter(function (el) {
+        return !el.closest('[aria-hidden="true"]') && el.offsetParent !== null;
+      });
+      if (!focusable.length) return;
+      var first = focusable[0], last = focusable[focusable.length - 1];
+      if (e.shiftKey) { if (document.activeElement === first) { e.preventDefault(); last.focus(); } }
+      else            { if (document.activeElement === last)  { e.preventDefault(); first.focus(); } }
+    });
+  }
+
+  /* ── Radio :has() fallback ────────────────────────────────────────────── */
+  function updateRadioCardStyles() {
+    if (!form) return;
+    form.querySelectorAll('.gift-radio-card').forEach(function (label) {
+      var radio = label.querySelector('input[type="radio"]');
+      if (radio) {
+        label.classList.toggle('is-selected', radio.checked);
+      }
+    });
+  }
+  if (form) {
+    form.addEventListener('change', updateRadioCardStyles);
+  }
+
+  /* ── Validation ───────────────────────────────────────────────────────── */
+  function setError(id, inputEl, show) {
+    var errEl = document.getElementById(id);
+    if (errEl) errEl.style.display = show ? 'block' : 'none';
+    if (inputEl) inputEl.classList.toggle('is-error', show);
+  }
+
+  function validate() {
+    var ok = true;
+
+    // Q1 Name
+    var nameVal = nameInput ? nameInput.value.trim() : '';
+    if (!nameVal) { setError('giftNameError',    nameInput,    true);  ok = false; }
+    else          { setError('giftNameError',    nameInput,    false); }
+
+    // Q2 Contact
+    var contactVal = contactInput ? contactInput.value.trim() : '';
+    if (!contactVal) { setError('giftContactError', contactInput, true);  ok = false; }
+    else             { setError('giftContactError', contactInput, false); }
+
+    // Q3 Interest
+    var interest = form ? form.querySelector('input[name="giftInterest"]:checked') : null;
+    var errInterest = document.getElementById('giftInterestError');
+    if (!interest) { if (errInterest) errInterest.style.display = 'block'; ok = false; }
+    else           { if (errInterest) errInterest.style.display = 'none';  }
+
+    // Privacy
+    var privacyChecked = privacyCb && privacyCb.checked;
+    var errPrivacy = document.getElementById('giftPrivacyError');
+    if (!privacyChecked) { if (errPrivacy) errPrivacy.style.display = 'block'; ok = false; }
+    else                 { if (errPrivacy) errPrivacy.style.display = 'none';  }
+
+    return ok;
+  }
+
+  /* ── Form submit ──────────────────────────────────────────────────────── */
+  if (form) {
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      if (!validate()) {
+        // Scroll first error into view
+        var firstErr = card ? card.querySelector('.gift-error[style*="block"], .is-error') : null;
+        if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      // Honeypot check — silently simulate success if bot filled it
+      if (honeypot && honeypot.value) { showSuccess(''); return; }
+
+      // Collect lead data
+      var interest = form.querySelector('input[name="giftInterest"]:checked');
+      var utms = getUtmParams();
+      var leadData = {
+        name:         nameInput    ? nameInput.value.trim()    : '',
+        contact:      contactInput ? contactInput.value.trim() : '',
+        interest:     interest     ? interest.value            : '',
+        consent:      true,
+        language:     (typeof lang !== 'undefined') ? lang : 'ru',
+        source:       'gift_site',
+        page_url:     window.location.href,
+        utm_source:   utms.utm_source,
+        utm_medium:   utms.utm_medium,
+        utm_campaign: utms.utm_campaign,
+        utm_content:  utms.utm_content,
+        utm_term:     utms.utm_term
+      };
+
+      // ── Production submit ─────────────────────────────────────────────────
+      var submitBtn = form.querySelector('.gift-submit-btn');
+      var errorBanner = form.querySelector('.gift-submit-error');
+
+      // Loading state
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.dataset.origText = submitBtn.textContent;
+        submitBtn.textContent = '⏳';
+      }
+      if (errorBanner) errorBanner.hidden = true;
+
+      fetch('/api/gift/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(leadData)
+      })
+      .then(function (r) {
+        return r.json().then(function (data) {
+          if (!r.ok || !data.ok) {
+            throw new Error(data.error || ('HTTP ' + r.status));
+          }
+          return data;
+        });
+      })
+      .then(function (data) {
+        showSuccess(data.telegram_url || '');
+      })
+      .catch(function (err) {
+        console.error('[Gift Form] Submission error:', err);
+        // Restore button
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          if (submitBtn.dataset.origText) {
+            submitBtn.textContent = submitBtn.dataset.origText;
+          }
+        }
+        // Show inline error in existing style
+        if (errorBanner) {
+          errorBanner.hidden = false;
+        } else {
+          // Fallback: create error element
+          var el = document.createElement('div');
+          el.className = 'gift-error';
+          el.style.display = 'block';
+          el.style.marginTop = '12px';
+          el.textContent = '⚠ Произошла ошибка. Попробуйте ещё раз.';
+          form.appendChild(el);
+        }
+      });
+      // ── End production submit ─────────────────────────────────────────────
+    });
+  }
+
+  function showSuccess(telegramUrl) {
+    if (formState)    formState.hidden    = true;
+    if (successState) successState.hidden = false;
+    if (card) card.scrollTop = 0;
+    var tgBtn = document.getElementById('giftTgBtn');
+    // Set dynamic Telegram deep-link from backend (contains unique token)
+    if (tgBtn && telegramUrl) {
+      tgBtn.href = telegramUrl;
+    }
+    if (tgBtn) setTimeout(function () { tgBtn.focus(); }, 80);
+  }
+
+  /* ── Patch window.setLang to keep modal in sync on language switch ─────── */
+  // The existing setLang() already processes data-i18n and data-i18n-html
+  // across the whole document, so since we extended T.ru/ua/en with GIFT_T,
+  // gift modal elements are automatically re-translated on every setLang call.
+  // We wrap it only to handle the privacy link URL update if needed in future.
+  var _origSetLang = window.setLang;
+  if (typeof _origSetLang === 'function') {
+    window.setLang = function (l) {
+      _origSetLang(l);
+      // setLang already handles data-i18n-html on .gift-privacy-label
+      // (privacy link URL is embedded per language inside gift_privacy_html).
+    };
+  }
+
+  /* ── Re-run current language on init to translate modal elements ─────── */
+  if (typeof setLang === 'function' && typeof lang !== 'undefined') {
+    setLang(lang);
+  }
+
+}());
+</script>
+<!-- ══ END GIFT MODAL JS ════════════════════════════════════════════════════ -->
+
 </body>
 </html>
