@@ -14,12 +14,16 @@
  *   BOT_USERNAME     - Telegram bot username, e.g. "FamiBudgetBot"
  */
 
-const ALLOWED_INTERESTS = [
-  "personal_finance",
-  "build_capital",
-  "extra_income",
-  "try_gift",
-];
+const INTEREST_MAP = {
+  finances: "personal_finance",
+  capital: "build_capital",
+  income: "extra_income",
+  try: "try_gift",
+  personal_finance: "personal_finance",
+  build_capital: "build_capital",
+  extra_income: "extra_income",
+  try_gift: "try_gift",
+};
 const ALLOWED_LANGUAGES = ["ru", "uk", "en"];
 const MAX_STRING = 500;
 const MAX_NAME = 100;
@@ -183,8 +187,9 @@ export async function onRequestPost(context) {
   if (!contact) return errorResp("contact_required");
 
   // Interest
-  const interest = sanitize(body.interest, 50);
-  if (!interest || !ALLOWED_INTERESTS.includes(interest)) {
+  const rawInterest = sanitize(body.interest, 50);
+  const interest = rawInterest ? INTEREST_MAP[rawInterest] : null;
+  if (!interest) {
     return errorResp("interest_invalid");
   }
 
