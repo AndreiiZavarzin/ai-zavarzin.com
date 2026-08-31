@@ -3079,7 +3079,7 @@ html.theme-transition * {
         <div class="bot-info">
           <h3>FamiBudget Bot</h3>
           <p data-i18n="bot2_p">Считает семейный бюджет и помогает держать финансы под контролем. Без контроля расходов — нет капитала. Просто, удобно, бесплатно.</p>
-          <a href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" class="bot-btn"><i class="fab fa-telegram"></i> <span data-i18n="bot_open">Открыть бота</span></a>
+          <a href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" class="bot-btn" id="famiBudgetGiftBtn"><i class="fab fa-telegram"></i> <span data-i18n="bot_open">Открыть бота</span></a>
         </div>
       </div>
       <!-- RWA Info Bot -->
@@ -5130,6 +5130,9 @@ if (themeToggle) {
   document.querySelectorAll('.mobile-header-gift').forEach(function (el) {
     el.addEventListener('click', openModal);
   });
+
+  var famiBudgetGiftBtn = document.getElementById('famiBudgetGiftBtn');
+  if (famiBudgetGiftBtn) famiBudgetGiftBtn.addEventListener('click', openModal);
 
   /* ── Close triggers ───────────────────────────────────────────────────── */
   if (closeBtn)  closeBtn.addEventListener('click', closeModal);
