@@ -1245,9 +1245,40 @@ html.theme-transition * {
   }
   .btn-cookie-decline:hover { color: rgba(215,224,235,0.85); border-color: rgba(255,255,255,0.25); }
   @media (max-width: 560px) {
-    #cookie-banner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 20px; }
-    .cookie-btns { width: 100%; }
-    .btn-cookie-accept { flex: 1; text-align: center; }
+    #cookie-banner {
+      bottom: 0; left: 0; right: 0;
+      width: 100%; max-width: 100%;
+      transform: none;
+      border-radius: 0;
+      border-left: none; border-right: none; border-bottom: none;
+      padding: 9px 14px;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    @keyframes cookieUp {
+      from { opacity: 0; transform: translateY(100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cookie-icon { display: none; }
+    .cookie-text p { font-size: 0.72rem; line-height: 1.3; margin: 0; }
+    .cookie-btns { gap: 6px; flex-shrink: 0; flex-wrap: nowrap; }
+    .btn-cookie-accept { padding: 7px 12px; font-size: 0.78rem; border-radius: 8px; flex: none; }
+    .btn-cookie-more {
+      display: inline-block;
+      padding: 6px 10px; font-size: 0.75rem;
+      color: rgba(215,224,235,0.55);
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      white-space: nowrap;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .btn-cookie-more:hover { color: rgba(215,224,235,0.85); border-color: rgba(255,255,255,0.25); }
+    [data-theme="light"] #cookie-banner { background: #f0f4f8; border-color: rgba(0,0,0,0.10); }
+    [data-theme="light"] .cookie-text p { color: rgba(30,40,55,0.75); }
+    [data-theme="light"] .btn-cookie-more { color: rgba(30,40,55,0.60); border-color: rgba(0,0,0,0.15); }
   }
 
 
@@ -2005,6 +2036,59 @@ html.theme-transition * {
   }
 }
 
+</style>
+
+<style>
+/* ===== MOBILE FINAL AUTHORITY (TZ CORRECTION) ===== */
+/*
+ * This block is the single source of truth for mobile hero ordering
+ * and floating-button positioning. It comes AFTER all v3.x blocks so
+ * no earlier rule can silently re-show hidden elements or reorder them.
+ */
+@media (max-width: 640px) {
+
+  /* ── HIDE: role text (ПРЕДПРИНИМАТЕЛЬ / Капитал · Современные технологии) ── */
+  .hero-v2-role,
+  .hero-v2-role.hero-role-premium {
+    display: none !important;
+  }
+
+  /* ── HIDE: pill badges (КАПИТАЛ / ФИН. ИНСТРУМЕНТЫ / ИИ / WEB3 / АВТОМАТИЗАЦИЯ) ── */
+  .hero-v2-pillars {
+    display: none !important;
+  }
+
+  /* ── ORDER: CTA button → photo+social → offer ── */
+  .hero-v2-actions {
+    order: 1 !important;
+    margin-bottom: 20px !important;
+  }
+  .hero-v2 .hero-photo-wrap {
+    order: 2 !important;
+  }
+  /* question / title / pain etc. keep their orders from v3.7 (4, 5, …) */
+
+  /* ── FLOATING BUTTONS: lift above cookie strip ── */
+  /* Cookie strip sits at bottom:0 and is ~44 px tall on mobile.
+     Buttons were at bottom:28 px — raised to 62 px so they clear it.
+     Positions do NOT change when the cookie is dismissed — no jump. */
+  #tgFloat {
+    bottom: 62px !important;
+  }
+  #scrollTop {
+    bottom: 62px !important;
+  }
+  #floatingCTA {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  /* Keep the visible-state transform correct after the bottom shift */
+  #floatingCTA.fcta-visible {
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
+
+<style>
 /* ── RWA NFT CARD SECTION ────────────────────────────────── */
 #rwa-nft-card {
   position: relative;
@@ -2376,11 +2460,11 @@ html.theme-transition * {
 <div id="cookie-banner">
   <div class="cookie-icon">🍪</div>
   <div class="cookie-text">
-    <p data-i18n="cookie_text">Мы используем файлы cookie для аналитики и улучшения сайта. Продолжая использование, вы соглашаетесь с нашей политикой конфиденциальности.</p>
+    <p data-i18n="cookie_text">Мы используем cookie для аналитики</p>
   </div>
   <div class="cookie-btns">
     <button class="btn-cookie-accept" id="cookieAccept" data-i18n="cookie_accept">Принять</button>
-    <button class="btn-cookie-decline" id="cookieDecline" data-i18n="cookie_decline">Отклонить</button>
+    <a href="/privacy" class="btn-cookie-more" data-i18n="cookie_more">Подробнее</a>
   </div>
 </div>
 
@@ -3233,8 +3317,8 @@ const T = {
   ru: {
     page_title:"Андрей Заварзин — капитал и современные технологии",
     meta_desc:"Персональный сайт Андрея Заварзина. Капитал, финансовые инструменты, искусственный интеллект, автоматизация, Web3 и современные технологии.",
-    cookie_text:"Мы используем файлы cookie для аналитики и улучшения сайта. Продолжая использование, вы соглашаетесь с нашей политикой конфиденциальности.",
-    cookie_accept:"Принять", cookie_decline:"Отклонить",
+    cookie_text:"Мы используем cookie для аналитики",
+    cookie_accept:"Принять", cookie_more:"Подробнее",
     about_cite:"— Андрей Заварзин",
     journey_tag:"Мой путь", journey_h2:"От первой сделки — к системе", journey_p:"30 лет практики, переломные моменты и инструменты, которые изменили всё.",
     journey_1995_h:"Старт",
@@ -3404,8 +3488,8 @@ const T = {
   ua: {
     page_title:"Андрій Заварзін — капітал і сучасні технології",
     meta_desc:"Персональний сайт Андрія Заварзіна. Капітал, фінансові інструменти, штучний інтелект, автоматизація, Web3 і сучасні технології.",
-    cookie_text:"Ми використовуємо файли cookie для аналітики та покращення сайту. Продовжуючи користуватися сайтом, ви погоджуєтеся з нашою політикою конфіденційності.",
-    cookie_accept:"Прийняти", cookie_decline:"Відхилити",
+    cookie_text:"Ми використовуємо cookie для аналітики",
+    cookie_accept:"Прийняти", cookie_more:"Детальніше",
     about_cite:"— Андрій Заварзін",
     journey_tag:"Мій шлях", journey_h2:"Від першої угоди — до системного підходу", journey_p:"30 років практики, переломні моменти та інструменти, які змінили все.",
     journey_1995_h:"Старт",
@@ -3575,8 +3659,8 @@ const T = {
   en: {
     page_title:"Andrey Zavarzin — Capital and Modern Technologies",
     meta_desc:"Andrey Zavarzin’s personal website. Capital, financial tools, artificial intelligence, automation, Web3, and modern technologies.",
-    cookie_text:"We use cookies for analytics and to improve the website. By continuing to use the site, you agree to our privacy policy.",
-    cookie_accept:"Accept", cookie_decline:"Decline",
+    cookie_text:"We use cookies for analytics",
+    cookie_accept:"Accept", cookie_more:"Learn more",
     about_cite:"— Andrey Zavarzin",
     journey_tag:"My journey", journey_h2:"From the first deal to a structured approach", journey_p:"30 years of practice, turning points, and tools that changed everything.",
     journey_1995_h:"The beginning",
@@ -3991,10 +4075,6 @@ if (themeToggle) {
     if (localStorage.getItem('cookieConsent')) { banner.classList.add('hidden'); return; }
     document.getElementById('cookieAccept').addEventListener('click', function(){
       localStorage.setItem('cookieConsent', 'accepted');
-      banner.classList.add('hidden');
-    });
-    document.getElementById('cookieDecline').addEventListener('click', function(){
-      localStorage.setItem('cookieConsent', 'declined');
       banner.classList.add('hidden');
     });
   })();
