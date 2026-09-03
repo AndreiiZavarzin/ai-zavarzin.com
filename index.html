@@ -1477,18 +1477,20 @@ html.theme-transition * {
   /* Let hero children participate in one common mobile flow. */
   .hero-v2 .hero-content { display: contents; }
 
-  /* 1. Role/positioning text — hidden on mobile per TZ. */
-  .hero-v2-role { display: none !important; }
+  /* 1. Positioning line — keep clear of the floating gift button on the right. */
+  .hero-v2-role {
+    order: 1;
+    width: calc(100% - 76px);
+    margin: 0 76px 22px 0 !important;
+    padding: 0 4px;
+    text-align: center;
+    font-size: .88rem !important;
+    line-height: 1.45;
+  }
 
-  /* 1. Pillars — first on mobile. */
-  .hero-v2-pillars { order: 1 !important; justify-content: center; }
-
-  /* 2. CTA — above photo on mobile. */
-  .hero-v2-actions { order: 2 !important; }
-
-  /* 3. Portrait — after CTA on mobile; social stays inside. */
+  /* 2. Portrait — larger and much earlier on mobile. */
   .hero-v2 .hero-photo-wrap {
-    order: 3 !important;
+    order: 2 !important;
     width: min(76vw, 300px) !important;
     margin: 0 auto 14px !important;
     justify-self: auto !important;
@@ -1511,12 +1513,14 @@ html.theme-transition * {
     border-radius: 12px;
   }
 
-  /* 4+. Offer starts after portrait + socials. */
+  /* 4+. Offer starts only after portrait + socials. */
   .hero-v3-question { order: 4; margin: 0 0 12px; }
   .hero-v2-title { order: 5; margin-bottom: 26px !important; }
   .hero-v3-pain { order: 6; }
   .hero-v3-solution { order: 7; }
   .hero-v3-desire { order: 8; }
+  .hero-v2-pillars { order: 9; justify-content: center; }
+  .hero-v2-actions { order: 10; }
 
   /* Slightly tighter offer typography after the new visual intro. */
   .hero-v3-question { font-size: .98rem; line-height: 1.35; }
@@ -1561,11 +1565,20 @@ html.theme-transition * {
     padding-top: 42px !important;
   }
 
-  /* Role/positioning text — hidden on mobile. */
-  .hero-v2-role { display: none !important; }
+  /* Deliberate, balanced two-line positioning; reserve room for gift button. */
+  .hero-v2-role {
+    width: 100% !important;
+    box-sizing: border-box;
+    margin: 0 0 24px !important;
+    padding: 0 78px 0 18px !important;
+    font-size: .9rem !important;
+    line-height: 1.5 !important;
+    text-align: center !important;
+  }
 
   .hero-role-break {
-    display: none;
+    display: block;
+    height: 2px;
   }
 }
 </style>
@@ -2023,6 +2036,59 @@ html.theme-transition * {
   }
 }
 
+</style>
+
+<style>
+/* ===== MOBILE FINAL AUTHORITY (TZ CORRECTION) ===== */
+/*
+ * This block is the single source of truth for mobile hero ordering
+ * and floating-button positioning. It comes AFTER all v3.x blocks so
+ * no earlier rule can silently re-show hidden elements or reorder them.
+ */
+@media (max-width: 640px) {
+
+  /* ── HIDE: role text (ПРЕДПРИНИМАТЕЛЬ / Капитал · Современные технологии) ── */
+  .hero-v2-role,
+  .hero-v2-role.hero-role-premium {
+    display: none !important;
+  }
+
+  /* ── HIDE: pill badges (КАПИТАЛ / ФИН. ИНСТРУМЕНТЫ / ИИ / WEB3 / АВТОМАТИЗАЦИЯ) ── */
+  .hero-v2-pillars {
+    display: none !important;
+  }
+
+  /* ── ORDER: CTA button → photo+social → offer ── */
+  .hero-v2-actions {
+    order: 1 !important;
+    margin-bottom: 20px !important;
+  }
+  .hero-v2 .hero-photo-wrap {
+    order: 2 !important;
+  }
+  /* question / title / pain etc. keep their orders from v3.7 (4, 5, …) */
+
+  /* ── FLOATING BUTTONS: lift above cookie strip ── */
+  /* Cookie strip sits at bottom:0 and is ~44 px tall on mobile.
+     Buttons were at bottom:28 px — raised to 62 px so they clear it.
+     Positions do NOT change when the cookie is dismissed — no jump. */
+  #tgFloat {
+    bottom: 62px !important;
+  }
+  #scrollTop {
+    bottom: 62px !important;
+  }
+  #floatingCTA {
+    bottom: calc(60px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+  /* Keep the visible-state transform correct after the bottom shift */
+  #floatingCTA.fcta-visible {
+    transform: translateX(-50%) translateY(0) !important;
+  }
+}
+</style>
+
+<style>
 /* ── RWA NFT CARD SECTION ────────────────────────────────── */
 #rwa-nft-card {
   position: relative;
