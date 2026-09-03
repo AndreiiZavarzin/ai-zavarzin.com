@@ -2089,6 +2089,89 @@ html.theme-transition * {
 </style>
 
 <style>
+/* ===== MOBILE HEADER: LANG + GIFT (TZ HEADER LANG GIFT + FINAL BALANCE) ===== */
+/*
+ * Three-zone layout (mobile only):
+ *   LEFT  [flex:1]  → RU UA EN
+ *   CENTER [flex:1]  → Забрать → 🎁  (centered within its zone)
+ *   RIGHT [natural] → [тема] [бургер]  (sit at far right naturally)
+ */
+@media (max-width: 640px) {
+
+  /* 1. Hide "Андрей Заварзин" name on mobile */
+  .nav-logo {
+    display: none !important;
+  }
+
+  /* 2. LEFT ZONE: lang switcher — grows left, content left-aligned */
+  .nav-right .lang-switcher {
+    display: flex !important;
+    flex: 1 !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    align-items: center !important;
+  }
+  .nav-right .lang-switcher .lang-btn {
+    background: none !important;
+    border: none !important;
+    color: var(--text-muted) !important;
+    padding: 4px 5px !important;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.05em !important;
+    cursor: pointer !important;
+    line-height: 1 !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    text-transform: uppercase !important;
+  }
+  .nav-right .lang-switcher .lang-btn.active {
+    background: none !important;
+    color: var(--gold) !important;
+  }
+  .nav-right .lang-switcher .lang-btn:hover:not(.active) {
+    color: var(--text) !important;
+    background: none !important;
+  }
+
+  /* 3. CENTER ZONE: gift — grows, content centered */
+  .mobile-header-gift {
+    flex: 1 !important;
+    width: auto !important;
+    padding: 0 4px !important;
+    font-size: 1rem !important;
+    gap: 4px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* 4. "Забрать →" label: yellow, ~40% larger than original 0.78rem */
+  .gift-cta-label {
+    color: var(--gold) !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    white-space: nowrap !important;
+    letter-spacing: 0.01em !important;
+    line-height: 1 !important;
+  }
+
+  /* 5. RIGHT ZONE: theme + burger sit naturally at far right.
+        Remove margin-left:auto (no longer needed with flex:1 zones above). */
+  .nav-right .theme-btn {
+    margin-left: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  .nav-toggle {
+    flex-shrink: 0 !important;
+  }
+}
+</style>
+
+<style>
 /* ── RWA NFT CARD SECTION ────────────────────────────────── */
 #rwa-nft-card {
   position: relative;
@@ -2494,7 +2577,7 @@ html.theme-transition * {
         <button class="lang-btn" onclick="setLang('ua')" aria-pressed="false">UA</button>
         <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
       </div>
-      <a class="mobile-header-gift" href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" aria-label="Бот в подарок" title="Бот в подарок" data-i18n-aria-label="aria_gift" data-i18n-title="aria_gift">🎁</a>
+      <a class="mobile-header-gift" href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" aria-label="Бот в подарок" title="Бот в подарок" data-i18n-aria-label="aria_gift" data-i18n-title="aria_gift"><span class="gift-cta-label">Забрать →</span> 🎁</a>
       <button class="theme-btn" id="themeToggle" aria-label="Переключить тему" data-i18n-aria-label="aria_theme"><i class="fas fa-moon"></i></button>
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Открыть меню" data-i18n-aria-label="aria_menu">
         <span></span><span></span><span></span>
