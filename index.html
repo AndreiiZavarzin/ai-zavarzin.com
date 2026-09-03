@@ -2140,14 +2140,21 @@ html.theme-transition * {
     align-items: center !important;
   }
 
-  /* 4. "Забрать →" label in yellow */
+  /* 4. "Забрать →" label in yellow — +22% larger than original 0.78rem */
   .gift-cta-label {
     color: var(--gold) !important;
     font-weight: 700 !important;
-    font-size: 0.78rem !important;
+    font-size: 0.95rem !important;
     white-space: nowrap !important;
     letter-spacing: 0.01em !important;
     line-height: 1 !important;
+  }
+
+  /* 5. Push theme toggle + burger to right edge of nav-right,
+        keeping lang-switcher + gift on the left.
+        margin-left:auto on theme-btn acts as a spacer. */
+  .nav-right .theme-btn {
+    margin-left: auto !important;
   }
 }
 </style>
