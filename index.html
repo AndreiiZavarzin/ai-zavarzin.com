@@ -1245,9 +1245,34 @@ html.theme-transition * {
   }
   .btn-cookie-decline:hover { color: rgba(215,224,235,0.85); border-color: rgba(255,255,255,0.25); }
   @media (max-width: 560px) {
-    #cookie-banner { flex-direction: column; align-items: flex-start; gap: 14px; padding: 18px 20px; }
-    .cookie-btns { width: 100%; }
-    .btn-cookie-accept { flex: 1; text-align: center; }
+    #cookie-banner {
+      bottom: 0; left: 0; right: 0;
+      width: 100%; max-width: 100%;
+      transform: none;
+      border-radius: 0;
+      border-left: none; border-right: none; border-bottom: none;
+      padding: 10px 14px;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    @keyframes cookieUp {
+      from { opacity: 0; transform: translateY(100%); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cookie-icon { display: none; }
+    .cookie-text p { font-size: 0.72rem; line-height: 1.3; margin: 0; }
+    .cookie-btns { gap: 6px; flex-shrink: 0; flex-wrap: nowrap; }
+    .btn-cookie-accept { padding: 7px 12px; font-size: 0.78rem; border-radius: 8px; flex: none; }
+    .btn-cookie-decline { padding: 7px 10px; font-size: 0.78rem; border-radius: 8px; }
+    /* Light-theme adjustments for mobile strip */
+    [data-theme="light"] #cookie-banner {
+      background: #f0f4f8; border-color: rgba(0,0,0,0.10);
+    }
+    [data-theme="light"] .cookie-text p { color: rgba(30,40,55,0.75); }
+    [data-theme="light"] .btn-cookie-decline {
+      color: rgba(30,40,55,0.60); border-color: rgba(0,0,0,0.15);
+    }
   }
 
 
@@ -1469,14 +1494,19 @@ html.theme-transition * {
   .hero-v2 .hero-photo-frame { border-radius: 24px; }
   .hero-v2 .hero-photo-inner { border-radius: 22px; }
 
-  /* 3. Socials directly under portrait. */
-  .hero-v2-social {
-    order: 3;
+  /* 3. (социалки перенесены ниже CTA — скрыть старый блок внутри photo-wrap на мобиле) */
+  .hero-v2 .hero-photo-wrap .hero-v2-social { display: none !important; }
+
+  /* 3b. Мобильный клон соцсетей (order:10 — после CTA и контента) */
+  .hero-social-mobile-only {
+    order: 10;
+    display: flex !important;
     justify-content: center !important;
-    margin: 0 0 34px !important;
     gap: 9px !important;
+    margin: 0 auto 10px !important;
+    flex-wrap: wrap;
   }
-  .hero-v2-social .social-link {
+  .hero-social-mobile-only .social-link {
     width: 43px;
     height: 43px;
     border-radius: 12px;
@@ -1489,7 +1519,7 @@ html.theme-transition * {
   .hero-v3-solution { order: 7; }
   .hero-v3-desire { order: 8; }
   .hero-v2-pillars { order: 9; justify-content: center; }
-  .hero-v2-actions { order: 10; }
+  .hero-v2-actions { order: 3; margin-bottom: 20px !important; }
 
   /* Slightly tighter offer typography after the new visual intro. */
   .hero-v3-question { font-size: .98rem; line-height: 1.35; }
@@ -1509,6 +1539,11 @@ html.theme-transition * {
 </style>
 
 
+
+<style>
+/* ===== MOBILE SOCIAL CLONE — hidden on desktop, visible only on mobile ===== */
+.hero-social-mobile-only { display: none; }
+</style>
 <style>
 /* ===== HEADER + MOBILE ROLE POLISH (v3.4) ===== */
 
@@ -2481,6 +2516,15 @@ html.theme-transition * {
 
         <div class="hero-v2-actions">
           <a id="heroCTA" href="https://tally.so/r/VLWPq6" target="_blank" rel="noopener noreferrer" data-tally-link class="btn btn-primary hero-v2-primary"><i class="fas fa-arrow-right"></i><span data-i18n="hero_v4_cta1">Начать создавать капитал</span></a>
+        </div>
+        <!-- Mobile-only social clone: appears after CTA block on small screens -->
+        <div class="social-bar hero-social-mobile-only" aria-hidden="true">
+          <a href="https://t.me/dezhisnaplavu" target="_blank" rel="noopener noreferrer" class="social-link tg" title="Telegram"><i class="fab fa-telegram"></i></a>
+          <a href="https://www.youtube.com/@a.zavarzin" target="_blank" rel="noopener noreferrer" class="social-link yt" title="YouTube"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.instagram.com/a.i.zavarzin" target="_blank" rel="noopener noreferrer" class="social-link ig" title="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.threads.com/@a.i.zavarzin" target="_blank" rel="noopener noreferrer" class="social-link th" title="Threads"><i class="fab fa-threads"></i></a>
+          <a href="https://www.facebook.com/share/1ck98rzxky/" target="_blank" rel="noopener noreferrer" class="social-link fb" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://tiktok.com/@user4630374796372" target="_blank" rel="noopener noreferrer" class="social-link tt" title="TikTok"><i class="fab fa-tiktok"></i></a>
         </div>
       </div>
       <div class="hero-photo-wrap">
