@@ -2089,7 +2089,13 @@ html.theme-transition * {
 </style>
 
 <style>
-/* ===== MOBILE HEADER: LANG + GIFT (TZ HEADER LANG GIFT) ===== */
+/* ===== MOBILE HEADER: LANG + GIFT (TZ HEADER LANG GIFT + FINAL BALANCE) ===== */
+/*
+ * Three-zone layout (mobile only):
+ *   LEFT  [flex:1]  → RU UA EN
+ *   CENTER [flex:1]  → Забрать → 🎁  (centered within its zone)
+ *   RIGHT [natural] → [тема] [бургер]  (sit at far right naturally)
+ */
 @media (max-width: 640px) {
 
   /* 1. Hide "Андрей Заварзин" name on mobile */
@@ -2097,9 +2103,11 @@ html.theme-transition * {
     display: none !important;
   }
 
-  /* 2. Re-show compact lang switcher in mobile header */
+  /* 2. LEFT ZONE: lang switcher — grows left, content left-aligned */
   .nav-right .lang-switcher {
     display: flex !important;
+    flex: 1 !important;
+    justify-content: flex-start !important;
     gap: 0 !important;
     background: none !important;
     border: none !important;
@@ -2129,32 +2137,36 @@ html.theme-transition * {
     background: none !important;
   }
 
-  /* 3. Expand gift button to fit "Забрать → 🎁" */
+  /* 3. CENTER ZONE: gift — grows, content centered */
   .mobile-header-gift {
+    flex: 1 !important;
     width: auto !important;
-    padding: 0 6px !important;
+    padding: 0 4px !important;
     font-size: 1rem !important;
-    gap: 3px !important;
-    flex-shrink: 0 !important;
-    display: inline-flex !important;
+    gap: 4px !important;
+    display: flex !important;
     align-items: center !important;
+    justify-content: center !important;
   }
 
-  /* 4. "Забрать →" label in yellow — +22% larger than original 0.78rem */
+  /* 4. "Забрать →" label: yellow, ~40% larger than original 0.78rem */
   .gift-cta-label {
     color: var(--gold) !important;
     font-weight: 700 !important;
-    font-size: 0.95rem !important;
+    font-size: 1.1rem !important;
     white-space: nowrap !important;
     letter-spacing: 0.01em !important;
     line-height: 1 !important;
   }
 
-  /* 5. Push theme toggle + burger to right edge of nav-right,
-        keeping lang-switcher + gift on the left.
-        margin-left:auto on theme-btn acts as a spacer. */
+  /* 5. RIGHT ZONE: theme + burger sit naturally at far right.
+        Remove margin-left:auto (no longer needed with flex:1 zones above). */
   .nav-right .theme-btn {
-    margin-left: auto !important;
+    margin-left: 0 !important;
+    flex-shrink: 0 !important;
+  }
+  .nav-toggle {
+    flex-shrink: 0 !important;
   }
 }
 </style>
