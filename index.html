@@ -2186,10 +2186,10 @@ html.theme-transition * {
   .gift-cta-arrow {
     color: var(--gold) !important;
     font-weight: 700 !important;
-    font-size: 1.25rem !important;
+    font-size: 1.55rem !important;
     line-height: 1 !important;
-    display: inline-block !important;
-    vertical-align: middle !important;
+    display: inline-flex !important;
+    align-items: center !important;
   }
 
   /* 7. Gift icon 🎁 — compact, slightly smaller than word */
@@ -2198,6 +2198,12 @@ html.theme-transition * {
     line-height: 1 !important;
     display: inline-block !important;
     vertical-align: middle !important;
+  }
+
+  /* 7b. Light theme: "Забрать" and arrow switch to dark blue */
+  [data-theme="light"] .gift-cta-label,
+  [data-theme="light"] .gift-cta-arrow {
+    color: #173F67 !important;
   }
 
   /* 8. RIGHT ZONE: theme + burger pushed to far right via spacer */
