@@ -2089,12 +2089,15 @@ html.theme-transition * {
 </style>
 
 <style>
-/* ===== MOBILE HEADER: LANG + GIFT (TZ HEADER LANG GIFT + FINAL BALANCE) ===== */
+/* ===== MOBILE HEADER: LANG + GIFT + FINAL FIX (TZ v18 FINAL FIX) ===== */
 /*
- * Three-zone layout (mobile only):
- *   LEFT  [flex:1]  → RU UA EN
- *   CENTER [flex:1]  → Забрать → 🎁  (centered within its zone)
- *   RIGHT [natural] → [тема] [бургер]  (sit at far right naturally)
+ * True three-zone layout (mobile only, ≤640px):
+ *   LEFT   → RU UA EN          (in flex flow, left-aligned)
+ *   CENTER → Забрать → 🎁      (position:absolute, left:50%, true center)
+ *   RIGHT  → [тема] [бургер]   (in flex flow, pushed right via margin-left:auto)
+ *
+ * nav-right takes full width (flex:1) so absolute centering is relative
+ * to the full mobile header width, not just the right-side cluster.
  */
 @media (max-width: 640px) {
 
@@ -2103,10 +2106,17 @@ html.theme-transition * {
     display: none !important;
   }
 
-  /* 2. LEFT ZONE: lang switcher — grows left, content left-aligned */
+  /* 2. nav-right takes full width so the gift can center against it */
+  .nav-right {
+    flex: 1 !important;
+    position: relative !important;
+    gap: 0 !important;
+  }
+
+  /* 3. LEFT ZONE: lang switcher — compact, left-aligned, in normal flow */
   .nav-right .lang-switcher {
     display: flex !important;
-    flex: 1 !important;
+    flex: none !important;
     justify-content: flex-start !important;
     gap: 0 !important;
     background: none !important;
@@ -2137,36 +2147,73 @@ html.theme-transition * {
     background: none !important;
   }
 
-  /* 3. CENTER ZONE: gift — grows, content centered */
+  /* 4. CENTER ZONE: gift — absolutely centered, out of flex flow */
   .mobile-header-gift {
-    flex: 1 !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
     width: auto !important;
-    padding: 0 4px !important;
-    font-size: 1rem !important;
-    gap: 4px !important;
-    display: flex !important;
+    display: inline-flex !important;
     align-items: center !important;
-    justify-content: center !important;
+    gap: 5px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    white-space: nowrap !important;
+    /* override v3.8 hover transform */
+    transition: opacity 0.15s !important;
+  }
+  .mobile-header-gift:hover,
+  .mobile-header-gift:focus {
+    transform: translate(-50%, -50%) !important;
+    opacity: 0.82 !important;
   }
 
-  /* 4. "Забрать →" label: yellow, ~40% larger than original 0.78rem */
+  /* 5. Word "Забрать" */
   .gift-cta-label {
     color: var(--gold) !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
+    font-size: 1.2rem !important;
     white-space: nowrap !important;
     letter-spacing: 0.01em !important;
     line-height: 1 !important;
   }
 
-  /* 5. RIGHT ZONE: theme + burger sit naturally at far right.
-        Remove margin-left:auto (no longer needed with flex:1 zones above). */
+  /* 6. Arrow → — separate span, proportional to word */
+  .gift-cta-arrow {
+    color: var(--gold) !important;
+    font-weight: 700 !important;
+    font-size: 1.55rem !important;
+    line-height: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+  }
+
+  /* 7. Gift icon 🎁 — compact, slightly smaller than word */
+  .gift-cta-icon {
+    font-size: 1.05rem !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+  }
+
+  /* 7b. Light theme: "Забрать" and arrow switch to dark blue */
+  [data-theme="light"] .gift-cta-label,
+  [data-theme="light"] .gift-cta-arrow {
+    color: #173F67 !important;
+  }
+
+  /* 8. RIGHT ZONE: theme + burger pushed to far right via spacer */
   .nav-right .theme-btn {
-    margin-left: 0 !important;
+    margin-left: auto !important;
     flex-shrink: 0 !important;
   }
-  .nav-toggle {
+  .nav-right .nav-toggle {
     flex-shrink: 0 !important;
+    margin-left: 6px !important;
   }
 }
 </style>
@@ -2577,7 +2624,7 @@ html.theme-transition * {
         <button class="lang-btn" onclick="setLang('ua')" aria-pressed="false">UA</button>
         <button class="lang-btn" onclick="setLang('en')" aria-pressed="false">EN</button>
       </div>
-      <a class="mobile-header-gift" href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" aria-label="Бот в подарок" title="Бот в подарок" data-i18n-aria-label="aria_gift" data-i18n-title="aria_gift"><span class="gift-cta-label">Забрать →</span> 🎁</a>
+      <a class="mobile-header-gift" href="https://t.me/FamiBudgetBot" target="_blank" rel="noopener noreferrer" aria-label="Бот в подарок" title="Бот в подарок" data-i18n-aria-label="aria_gift" data-i18n-title="aria_gift"><span class="gift-cta-label">Забрать</span><span class="gift-cta-arrow" aria-hidden="true">→</span><span class="gift-cta-icon" aria-hidden="true">🎁</span></a>
       <button class="theme-btn" id="themeToggle" aria-label="Переключить тему" data-i18n-aria-label="aria_theme"><i class="fas fa-moon"></i></button>
       <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Открыть меню" data-i18n-aria-label="aria_menu">
         <span></span><span></span><span></span>
