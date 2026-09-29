@@ -67,7 +67,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&family=Playfair+Display:ital,wght@1,600;1,700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
@@ -1119,6 +1119,11 @@ html.theme-transition * {
     #tgFloat { padding: 0 14px; border-radius: 50%; width: 46px; justify-content: center; }
     #tgFloat .tgf-label { max-width: 0; opacity: 0; padding: 0; }
   }
+  @media (max-width: 640px) {
+    /* Hidden while the Hero first screen is in view, to avoid competing with the Hero CTA. */
+    #tgFloat.tg-in-hero { opacity: 0; transform: translateY(10px); pointer-events: none; }
+    #tgFloat { transition: transform 0.2s ease, box-shadow 0.2s ease, padding 0.3s ease, width 0.3s ease, opacity 0.25s ease; }
+  }
 
 
   /* ── TOOLS TICKER ── */
@@ -1278,7 +1283,8 @@ html.theme-transition * {
     .btn-cookie-more:hover { color: rgba(215,224,235,0.85); border-color: rgba(255,255,255,0.25); }
     [data-theme="light"] #cookie-banner { background: #f0f4f8; border-color: rgba(0,0,0,0.10); }
     [data-theme="light"] .cookie-text p { color: rgba(30,40,55,0.75); }
-    [data-theme="light"] .btn-cookie-more { color: rgba(30,40,55,0.60); border-color: rgba(0,0,0,0.15); }
+    [data-theme="light"] .btn-cookie-more { color: rgba(23,63,103,0.88); border-color: rgba(23,63,103,0.35); font-weight: 600; }
+    [data-theme="light"] .btn-cookie-more:hover { color: #173F67; border-color: rgba(23,63,103,0.55); }
   }
 
 
@@ -1419,17 +1425,18 @@ html.theme-transition * {
 .hero-new .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-2;pointer-events:none}
 .hero-new .hero-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.34) 32%,rgba(0,0,0,.10) 62%,rgba(0,0,0,0) 82%)}
 .hero-new-inner{position:relative;height:100%;display:flex;align-items:center;padding-top:150px;padding-bottom:150px}
-.hero-new-title{margin:0;max-width:min(100%,15.5em);color:#fff;font-size:clamp(2rem,min(4.5vw,8.4vh),4.6rem);line-height:1.12;letter-spacing:-.03em;font-weight:600;text-shadow:0 2px 24px rgba(0,0,0,.35)}
+.hero-new-title{margin:0;max-width:min(100%,15.5em);color:#fff;font-size:clamp(2rem,min(4.5vw,8.4vh),4.6rem);line-height:1.14;letter-spacing:-.015em;font-weight:500;text-shadow:0 2px 24px rgba(0,0,0,.35)}
 .hero-new-title .hl{display:block;opacity:0;transform:translateY(10px);animation:heroLineIn .9s cubic-bezier(.22,.61,.36,1) forwards}
 .hero-new-title .hl-1{animation-delay:.4s}
 .hero-new-title .hl-2{animation-delay:.9s}
-.hero-new-title .hl-3{animation-delay:1.4s;font-size:1.14em;font-weight:800;letter-spacing:-.035em;margin-top:.06em}
+.hero-new-title .hl-3{animation-delay:1.4s;font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;font-weight:600;font-size:1.16em;letter-spacing:0;line-height:1.22;margin-top:.14em}
 @keyframes heroLineIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.hero-continue{position:absolute;left:50%;bottom:max(28px,calc(env(safe-area-inset-bottom,0px) + 20px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:12px;color:#E0C040;text-decoration:none;z-index:2;opacity:0;animation:heroFadeIn .8s ease 1.9s forwards;-webkit-tap-highlight-color:transparent}
-.hero-continue-label{font-size:clamp(.95rem,1.4vw,1.2rem);font-weight:700;letter-spacing:.2em;text-indent:.2em;text-shadow:0 1px 12px rgba(0,0,0,.55)}
-.hero-continue-circle{width:60px;height:60px;border-radius:50%;border:1.5px solid #E0C040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.18);box-shadow:0 0 0 0 rgba(224,192,64,0),0 4px 18px rgba(0,0,0,.25);transition:background .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
+.hero-continue{position:absolute;left:50%;bottom:max(150px,calc(env(safe-area-inset-bottom,0px) + 140px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;text-decoration:none;z-index:2;opacity:0;animation:heroFadeIn .8s ease 1.9s forwards;-webkit-tap-highlight-color:transparent}
+.hero-continue-label{font-size:clamp(.92rem,1.25vw,1.05rem);font-weight:600;letter-spacing:.04em;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6)}
+.hero-continue-circle{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(224,192,64,.85);color:#E0C040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);box-shadow:0 4px 16px rgba(0,0,0,.25);transition:background .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
 .hero-continue-arrow{display:block;animation:heroArrowNudge 2.6s ease-in-out 2.4s infinite}
-.hero-continue:hover .hero-continue-circle,.hero-continue:focus-visible .hero-continue-circle{background:#E0C040;color:#1a1200;box-shadow:0 6px 26px rgba(200,169,48,.45)}
+.hero-continue:hover .hero-continue-circle,.hero-continue:focus-visible .hero-continue-circle{background:#E0C040;color:#1a1200;box-shadow:0 6px 22px rgba(200,169,48,.4)}
+.hero-continue:hover .hero-continue-label,.hero-continue:focus-visible .hero-continue-label{color:#E0C040}
 .hero-continue:focus-visible{outline:2px solid #fff;outline-offset:6px;border-radius:12px}
 @keyframes heroFadeIn{from{opacity:0}to{opacity:1}}
 @keyframes heroArrowNudge{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
@@ -1438,7 +1445,8 @@ html.theme-transition * {
   .hero-new .hero-shade{background:linear-gradient(90deg,rgba(0,0,0,.50) 0%,rgba(0,0,0,.28) 60%,rgba(0,0,0,.12) 100%)}
   .hero-new-inner{padding-top:140px;padding-bottom:150px}
   .hero-new-title{font-size:clamp(1.85rem,8.4vw,2.6rem);max-width:100%}
-  .hero-continue-circle{width:54px;height:54px}
+  .hero-continue{bottom:max(108px,calc(env(safe-area-inset-bottom,0px) + 100px))}
+  .hero-continue-circle{width:42px;height:42px}
 }
 @media (max-height:520px) and (orientation:landscape){
   .hero-new-inner{padding-top:120px;padding-bottom:100px}
@@ -2715,10 +2723,10 @@ html.theme-transition * {
       <span class="hl hl-3" data-i18n="hero_new_l3">формируют твою судьбу.</span>
     </h1>
   </div>
-  <a class="hero-continue" href="#rwa-nft-card" aria-label="Продолжить" data-i18n-aria-label="hero_new_continue_aria">
-    <span class="hero-continue-label" data-i18n="hero_new_continue">ПРОДОЛЖИТЬ</span>
+  <a class="hero-continue" href="https://tally.so/r/VLWPq6" target="_blank" rel="noopener noreferrer" data-tally-link aria-label="Посмотреть, что дальше" data-i18n-aria-label="hero_new_continue_aria">
+    <span class="hero-continue-label" data-i18n="hero_new_continue">Посмотреть, что дальше</span>
     <span class="hero-continue-circle" aria-hidden="true">
-      <svg class="hero-continue-arrow" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M5 13l7 7 7-7"/></svg>
+      <svg class="hero-continue-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M5 13l7 7 7-7"/></svg>
     </span>
   </a>
 </section>
@@ -3466,7 +3474,7 @@ const T = {
     footer_name:"Андрей Заварзин", person_name:"Андрей Заварзин",
     aria_nav:"Основная навигация", aria_lang:"Выбор языка", aria_gift:"Бот в подарок", aria_theme:"Переключить тему", aria_menu:"Открыть меню", aria_pillars:"Ключевые направления", aria_tg:"Написать в Telegram", aria_top:"Наверх",
     ticker_title:"Инструменты которые я использую", ticker_hint:"нажми на любой чтобы узнать подробнее ↓",
-    hero_new_l1:"Моменты,", hero_new_l2:"когда ты принимаешь решения,", hero_new_l3:"формируют твою судьбу.", hero_new_continue:"ПРОДОЛЖИТЬ", hero_new_continue_aria:"Продолжить",
+    hero_new_l1:"Моменты,", hero_new_l2:"когда ты принимаешь решения,", hero_new_l3:"формируют твою судьбу.", hero_new_continue:"Посмотреть, что дальше", hero_new_continue_aria:"Посмотреть, что дальше",
     hero_v4_role_top:"Предприниматель", hero_v4_role_capital:"Капитал", hero_v4_role_tech:"Современные технологии",
     hero_v4_question:"ВЫ РАБОТАЕТЕ РАДИ ДЕНЕГ.",
     hero_v4_title:'А что ваши деньги<br><em>создают для вас?</em>',
@@ -3638,7 +3646,7 @@ const T = {
     footer_name:"Андрій Заварзін", person_name:"Андрій Заварзін",
     aria_nav:"Основна навігація", aria_lang:"Вибір мови", aria_gift:"Бот у подарунок", aria_theme:"Перемкнути тему", aria_menu:"Відкрити меню", aria_pillars:"Ключові напрямки", aria_tg:"Написати в Telegram", aria_top:"Вгору",
     ticker_title:"Інструменти, які я використовую", ticker_hint:"натисни на будь-який, щоб дізнатися більше ↓",
-    hero_new_l1:"Моменти,", hero_new_l2:"коли ти ухвалюєш рішення,", hero_new_l3:"формують твою долю.", hero_new_continue:"ПРОДОВЖИТИ", hero_new_continue_aria:"Продовжити",
+    hero_new_l1:"Моменти,", hero_new_l2:"коли ти ухвалюєш рішення,", hero_new_l3:"формують твою долю.", hero_new_continue:"Подивитись, що далі", hero_new_continue_aria:"Подивитись, що далі",
     hero_v4_role_top:"Підприємець", hero_v4_role_capital:"Капітал", hero_v4_role_tech:"Сучасні технології",
     hero_v4_question:"ВИ ПРАЦЮЄТЕ ЗАРАДИ ГРОШЕЙ.",
     hero_v4_title:'А що ваші гроші<br><em>створюють для вас?</em>',
@@ -3810,7 +3818,7 @@ const T = {
     footer_name:"Andrey Zavarzin", person_name:"Andrey Zavarzin",
     aria_nav:"Main navigation", aria_lang:"Language selection", aria_gift:"Gift bot", aria_theme:"Switch theme", aria_menu:"Open menu", aria_pillars:"Key areas", aria_tg:"Message me on Telegram", aria_top:"Back to top",
     ticker_title:"Tools I use", ticker_hint:"click any one to learn more ↓",
-    hero_new_l1:"Moments,", hero_new_l2:"when you make decisions,", hero_new_l3:"shape your destiny.", hero_new_continue:"CONTINUE", hero_new_continue_aria:"Continue",
+    hero_new_l1:"Moments,", hero_new_l2:"when you make decisions,", hero_new_l3:"shape your destiny.", hero_new_continue:"See what's next", hero_new_continue_aria:"See what's next",
     hero_v4_role_top:"Entrepreneur", hero_v4_role_capital:"Capital", hero_v4_role_tech:"Modern technologies",
     hero_v4_question:"YOU WORK FOR MONEY.",
     hero_v4_title:'But what does your money<br><em>create for you?</em>',
@@ -4167,15 +4175,20 @@ if (themeToggle) {
   /* ── Floating CTA via IntersectionObserver ── */
   var floatBtn = document.getElementById('floatingCTA');
   var heroCTA  = document.getElementById('heroCTA') || document.getElementById('hero');
+  var tgBtn    = document.getElementById('tgFloat');
   if (!floatBtn || !heroCTA) return;
 
   function show() { floatBtn.classList.add('fcta-visible'); }
   function hide() { floatBtn.classList.remove('fcta-visible'); }
+  /* Telegram float button: hidden while the Hero first screen is in view (mobile only, via CSS),
+     shown again once the user scrolls past it — so it never competes with the Hero CTA. */
+  function tgInHero() { if (tgBtn) tgBtn.classList.add('tg-in-hero'); }
+  function tgAfterHero() { if (tgBtn) tgBtn.classList.remove('tg-in-hero'); }
 
   if ('IntersectionObserver' in window) {
     var obs = new IntersectionObserver(function (entries) {
       entries.forEach(function (e) {
-        if (e.isIntersecting) { hide(); } else { show(); }
+        if (e.isIntersecting) { hide(); tgInHero(); } else { show(); tgAfterHero(); }
       });
     }, { threshold: 0.1 });
     obs.observe(heroCTA);
@@ -4183,7 +4196,7 @@ if (themeToggle) {
     /* Fallback: scroll handler */
     function onScroll() {
       var r = heroCTA.getBoundingClientRect();
-      if (r.top < window.innerHeight && r.bottom > 0) { hide(); } else { show(); }
+      if (r.top < window.innerHeight && r.bottom > 0) { hide(); tgInHero(); } else { show(); tgAfterHero(); }
     }
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
