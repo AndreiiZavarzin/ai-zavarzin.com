@@ -289,10 +289,24 @@
   .value-icon i { color: var(--blue); font-size: 0.95rem; }
   .value-card h4 { font-size: 0.88rem; margin-bottom: 5px; color: var(--text); }
   .value-card p { font-size: 0.8rem; line-height: 1.5; }
-  .about-quote { background: var(--bg); border: 1px solid var(--border-blue); border-radius: var(--radius); padding: 28px; margin-top: 28px; position: relative; }
-  .about-quote::before { content: '\201C'; position: absolute; top: -10px; left: 20px; font-size: 5rem; color: var(--blue); opacity: 0.12; line-height: 1; font-family: Georgia, serif; }
+  .about-quote { background: var(--bg); border: 1px solid var(--border-blue); border-radius: var(--radius); padding: 32px 0 0 32px; margin-top: 28px; position: relative; overflow: hidden; display: flex; align-items: flex-end; gap: 20px; min-height: 300px; }
+  .about-quote::before { content: '\201C'; position: absolute; top: -10px; left: 20px; font-size: 5rem; color: var(--blue); opacity: 0.12; line-height: 1; font-family: Georgia, serif; z-index: 2; }
+  .about-quote-text { flex: 1 1 220px; min-width: 0; padding-bottom: 32px; padding-right: 20px; position: relative; z-index: 2; }
   .about-quote blockquote { font-size: 1.05rem; font-style: italic; color: var(--text); line-height: 1.7; margin-bottom: 16px; }
   .about-quote cite { font-size: 0.85rem; color: var(--blue-light); font-style: normal; font-weight: 700; }
+  .about-quote-portrait-wrap { position: relative; flex: 0 0 auto; width: 42%; max-width: 230px; align-self: flex-end; z-index: 1; }
+  .about-quote-portrait-wrap::before {
+    content: ''; position: absolute; inset: -30px -10% 0;
+    background: radial-gradient(120% 100% at 65% 25%, rgba(23,63,103,0.10), rgba(91,168,224,0.05) 55%, rgba(23,63,103,0) 75%);
+  }
+  .about-quote-portrait {
+    position: relative; display: block; width: 100%; height: auto;
+    -webkit-mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
+    mask-image: linear-gradient(to bottom, #000 80%, transparent 99%);
+  }
+  [data-theme="dark"] .about-quote-portrait-wrap::before {
+    background: radial-gradient(120% 100% at 65% 25%, rgba(91,168,224,0.14), rgba(91,168,224,0.05) 55%, rgba(91,168,224,0) 75%);
+  }
   .crypto-bonus { background: var(--bg); border: 1px solid var(--border2); border-radius: var(--radius); padding: 20px; margin-top: 16px; display: flex; gap: 14px; align-items: flex-start; }
   .crypto-bonus-icon { width: 44px; height: 44px; flex-shrink: 0; background: var(--blue-dim); border: 1px solid rgba(23,63,103,0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
   .crypto-bonus-icon i { color: var(--blue); font-size: 1.1rem; }
@@ -499,6 +513,11 @@
     .social-bar { justify-content: center; }
     .hero-desc { margin-left: auto; margin-right: auto; }
     .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-quote { flex-direction: column; align-items: center; text-align: center; padding: 28px 24px 0; gap: 0; min-height: 0; }
+    .about-quote::before { left: 50%; transform: translateX(-50%); top: -6px; }
+    .about-quote-text { padding: 0; order: 1; }
+    .about-quote-portrait-wrap { order: 2; width: 62%; max-width: 260px; align-self: center; margin-top: 20px; }
+    .about-quote-portrait-wrap::before { inset: -20px -15% 0; }
     .tools-grid { grid-template-columns: repeat(2,1fr); }
     .join-grid { grid-template-columns: repeat(2,1fr); }
     .join-card { padding: 30px 24px; }
@@ -1249,6 +1268,15 @@ html.theme-transition * {
     white-space: nowrap; transition: all 0.2s; font-family: inherit;
   }
   .btn-cookie-decline:hover { color: rgba(215,224,235,0.85); border-color: rgba(255,255,255,0.25); }
+  .btn-cookie-more {
+    display: inline-block;
+    background: transparent; color: rgba(225,232,240,0.82);
+    border: 1px solid rgba(255,255,255,0.30); border-radius: 10px;
+    padding: 10px 16px; font-size: 0.84rem; font-weight: 600;
+    text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .btn-cookie-more:hover { color: #fff; border-color: rgba(255,255,255,0.5); }
   @media (max-width: 560px) {
     #cookie-banner {
       bottom: 0; left: 0; right: 0;
@@ -2746,7 +2774,7 @@ html.theme-transition * {
            target="_blank"
            rel="noopener noreferrer sponsored">
           <span class="rwa-badge-dot"></span>
-          <span data-i18n="rwa_badge">RWA NFT CARD · ПРЕДРЕГИСТРАЦИЯ ОТКРЫТА</span>
+          <span data-i18n="rwa_badge">Пройти регистрацию</span>
           <i class="fas fa-chevron-right rwa-badge-arrow"></i>
         </a>
 
@@ -2788,7 +2816,7 @@ html.theme-transition * {
            class="rwa-cta-btn tool-btn"
            target="_blank"
            rel="noopener noreferrer sponsored"
-           data-i18n="rwa_cta">ПРОЙТИ ПРЕДРЕГИСТРАЦИЮ →</a>
+           data-i18n="rwa_cta">Пройти регистрацию</a>
 
         <!-- Trust Row -->
         <div class="rwa-trust">
@@ -2994,8 +3022,13 @@ html.theme-transition * {
       </div>
       <div class="reveal">
         <div class="about-quote">
-          <blockquote data-i18n="about_quote">Капитал не появляется от одного удачного решения. Он создаётся системой — когда ты понимаешь, что делаешь, какими инструментами пользуешься и зачем.</blockquote>
-          <cite data-i18n="about_cite">— Андрей Заварзин</cite>
+          <div class="about-quote-text">
+            <blockquote data-i18n="about_quote">Капитал не появляется от одного удачного решения. Он создаётся системой — когда ты понимаешь, что делаешь, какими инструментами пользуешься и зачем.</blockquote>
+            <cite data-i18n="about_cite">— Андрей Заварзин</cite>
+          </div>
+          <div class="about-quote-portrait-wrap">
+            <img class="about-quote-portrait" src="andrey-portrait.png" alt="Андрей Заварзин" width="900" height="870" loading="lazy" decoding="async">
+          </div>
         </div>
         <div style="background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:22px;margin-top:20px;">
           <p style="font-size:0.85rem;color:var(--text);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;">
@@ -3482,7 +3515,7 @@ const T = {
     hero_v4_solution:'Я изучаю и использую <strong>разные возможности для создания капитала</strong> — и делюсь теми инструментами, которые считаю достойными внимания. Сегодня это одни направления, завтра могут появиться другие.',
     hero_v4_desire_intro:"Не обязательно знать всё.", hero_v4_desire_accent:"Важно начать создавать своё.",
     hero_v4_pillar1:"КАПИТАЛ", hero_v4_pillar2:"ФИНАНСОВЫЕ ИНСТРУМЕНТЫ", hero_v4_pillar3:"ИИ", hero_v4_pillar5:"АВТОМАТИЗАЦИЯ",
-    hero_v4_cta1:"Начать создавать капитал", hero_v4_cta2:"Возьми деньги под контроль", hero_v4_gift:" Бот в подарок",
+    hero_v4_cta1:"Продолжить", hero_v4_cta2:"Возьми деньги под контроль", hero_v4_gift:" Бот в подарок",
     nav_about:"Обо мне", nav_tools:"Инструменты", nav_bots:"Боты", nav_faq:"Вопросы", nav_join:"Команда", nav_tg:"Telegram", nav_system:"Система", tgfloat_label:"Написать мне",
     hero_role:"Предприниматель · Системный бизнес · Капитал", hero_since:"Практический опыт с 2008 года",
     hero_h1a:"Андрей", hero_h1b:"Заварзин",
@@ -3605,14 +3638,14 @@ const T = {
     tg_f2:"Новые инструменты", tg_f2l:"Технологии и практика",
     tg_f3:"Разборы и наблюдения", tg_f3l:"Честный взгляд",
     disclaimer:"⚠️ Дисклеймер: Вся информация на этом сайте носит исключительно информационный характер и не является финансовой рекомендацией, инвестиционным советом или призывом к действию. Любые финансовые решения вы принимаете самостоятельно и на свой страх и риск. Прошлые показатели платформ не гарантируют будущих результатов. Автор не несёт ответственности за финансовые потери третьих лиц.",
-    rwa_badge:"RWA NFT CARD · ПРЕДРЕГИСТРАЦИЯ ОТКРЫТА",
+    rwa_badge:"Пройти регистрацию",
     rwa_title:'Криптовалюта на кошельке.<br><em>Деньги — на карте.</em>',
     rwa_desc:"Премиальная дебетовая карта RWA NFT соединяет цифровые активы с привычными повседневными платежами.",
     rwa_f1_val:"30", rwa_f1_unit:"BIN", rwa_f1_lbl:"30 независимых BIN",
     rwa_f2_val:"$0", rwa_f2_unit:"3 ГОДА", rwa_f2_lbl:"обслуживание карты",
     rwa_f3_val:"до $3M", rwa_f3_unit:"/ МЕС.", rwa_f3_lbl:"тариф Black",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"бесконтактная оплата",
-    rwa_cta:"ПРОЙТИ ПРЕДРЕГИСТРАЦИЮ →",
+    rwa_cta:"Пройти регистрацию",
     rwa_trust:"Ваши данные защищены. Переход на официальный сайт RWA NFT.<br>Без спама и навязчивых рассылок.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
     rwa_release_text:"Релиз ожидается в конце сентября 2026",
@@ -3654,7 +3687,7 @@ const T = {
     hero_v4_solution:'Я вивчаю й використовую <strong>різні можливості для створення капіталу</strong> — і ділюся тими інструментами, які вважаю вартими уваги. Сьогодні це одні напрямки, завтра можуть з’явитися інші.',
     hero_v4_desire_intro:"Не обов’язково знати все.", hero_v4_desire_accent:"Важливо почати створювати своє.",
     hero_v4_pillar1:"КАПІТАЛ", hero_v4_pillar2:"ФІНАНСОВІ ІНСТРУМЕНТИ", hero_v4_pillar3:"ШІ", hero_v4_pillar5:"АВТОМАТИЗАЦІЯ",
-    hero_v4_cta1:"Почати створювати капітал", hero_v4_cta2:"Візьми гроші під контроль", hero_v4_gift:" Бот у подарунок",
+    hero_v4_cta1:"Продовжити", hero_v4_cta2:"Візьми гроші під контроль", hero_v4_gift:" Бот у подарунок",
     nav_about:"Про мене", nav_tools:"Інструменти", nav_bots:"Боти", nav_faq:"Питання", nav_join:"Команда", nav_tg:"Telegram", nav_system:"Система", tgfloat_label:"Написати мені",
     hero_role:"Підприємець · Системний бізнес · Капітал", hero_since:"Практичний досвід з 2008 року",
     hero_h1a:"Андрій", hero_h1b:"Заварзін",
@@ -3777,14 +3810,14 @@ const T = {
     tg_f2:"Нові інструменти", tg_f2l:"Технології та практика",
     tg_f3:"Розбори та спостереження", tg_f3l:"Чесний погляд",
     disclaimer:"⚠️ Дисклеймер: Уся інформація на цьому сайті носить виключно інформаційний характер і не є фінансовою рекомендацією, інвестиційною порадою або закликом до дії. Будь-які фінансові рішення ви приймаєте самостійно і на свій страх і ризик. Минулі показники платформ не гарантують майбутніх результатів. Автор не несе відповідальності за фінансові втрати третіх осіб.",
-    rwa_badge:"RWA NFT CARD · ПЕРЕДРЕЄСТРАЦІЮ ВІДКРИТО",
+    rwa_badge:"Пройти реєстрацію",
     rwa_title:'Криптовалюта в гаманці.<br><em>Гроші — на картці.</em>',
     rwa_desc:"Преміальна дебетова картка RWA NFT поєднує цифрові активи зі звичними повсякденними платежами.",
     rwa_f1_val:"30", rwa_f1_unit:"BIN", rwa_f1_lbl:"30 незалежних BIN",
     rwa_f2_val:"$0", rwa_f2_unit:"3 РОКИ", rwa_f2_lbl:"обслуговування картки",
     rwa_f3_val:"до $3M", rwa_f3_unit:"/ МІС.", rwa_f3_lbl:"тариф Black",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"безконтактна оплата",
-    rwa_cta:"ПРОЙТИ ПЕРЕДРЕЄСТРАЦІЮ →",
+    rwa_cta:"Пройти реєстрацію",
     rwa_trust:"Ваші дані захищені. Перехід на офіційний сайт RWA NFT.<br>Без спаму та нав'язливих розсилок.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
     rwa_release_text:"Реліз очікується наприкінці вересня 2026",
@@ -3826,7 +3859,7 @@ const T = {
     hero_v4_solution:'I study and use <strong>different opportunities to build capital</strong> — and share the tools I believe are worth attention. Today those are some directions; tomorrow there may be others.',
     hero_v4_desire_intro:"You don’t have to know everything.", hero_v4_desire_accent:"What matters is starting to build something of your own.",
     hero_v4_pillar1:"CAPITAL", hero_v4_pillar2:"FINANCIAL TOOLS", hero_v4_pillar3:"AI", hero_v4_pillar5:"AUTOMATION",
-    hero_v4_cta1:"Start building capital", hero_v4_cta2:"Take control of your money", hero_v4_gift:" Bot as a gift",
+    hero_v4_cta1:"Continue", hero_v4_cta2:"Take control of your money", hero_v4_gift:" Bot as a gift",
     nav_about:"About", nav_tools:"Tools", nav_bots:"Bots", nav_faq:"FAQ", nav_join:"Team", nav_tg:"Telegram", nav_system:"System", tgfloat_label:"Message me",
     hero_role:"Entrepreneur · Systematic Business · Capital", hero_since:"Practical experience since 2008",
     hero_h1a:"Andrey", hero_h1b:"Zavarzin",
@@ -3949,14 +3982,14 @@ const T = {
     tg_f2:"New Tools", tg_f2l:"Technology & practice",
     tg_f3:"Reviews & Observations", tg_f3l:"Honest perspective",
     disclaimer:"⚠️ Disclaimer: All information on this site is for informational purposes only and does not constitute financial advice, investment guidance or a call to action. Any financial decisions you make are at your own risk. Past platform performance does not guarantee future results. The author bears no responsibility for financial losses of third parties.",
-    rwa_badge:"RWA NFT CARD · PRE-REGISTRATION OPEN",
+    rwa_badge:"Complete registration",
     rwa_title:'Crypto in your wallet.<br><em>Money on your card.</em>',
     rwa_desc:"The premium RWA NFT debit card connects digital assets with everyday payments.",
     rwa_f1_val:"30", rwa_f1_unit:"BIN", rwa_f1_lbl:"30 independent BINs",
     rwa_f2_val:"$0", rwa_f2_unit:"3 YEARS", rwa_f2_lbl:"card maintenance",
     rwa_f3_val:"Up to $3M", rwa_f3_unit:"/ MO.", rwa_f3_lbl:"Black tier",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"contactless payments",
-    rwa_cta:"PRE-REGISTER NOW →",
+    rwa_cta:"Complete registration",
     rwa_trust:"Your data is protected. Redirecting to the official RWA NFT website.<br>No spam or unsolicited messages.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
     rwa_release_text:"Launch expected at the end of September 2026",
@@ -4165,9 +4198,9 @@ if (themeToggle) {
   <span class="bot-emoji">🎁</span><span class="bot-text" data-i18n="hero_v4_gift"> Бот в подарок</span>
 </a>
 <!-- ═══ FLOATING YELLOW CTA ═══════════════════════════════════════════════ -->
-<a id="floatingCTA" href="https://tally.so/r/VLWPq6" target="_blank" rel="noopener noreferrer" data-tally-link aria-label="Начать создавать капитал">
+<a id="floatingCTA" href="https://tally.so/r/VLWPq6" target="_blank" rel="noopener noreferrer" data-tally-link aria-label="Продолжить">
   <i class="fas fa-arrow-right" style="font-size:17px;flex-shrink:0;"></i>
-  <span data-i18n="hero_v4_cta1">Начать создавать капитал</span>
+  <span data-i18n="hero_v4_cta1">Продолжить</span>
 </a>
 <button id="scrollTop" aria-label="Наверх" title="Наверх" data-i18n-aria-label="aria_top" data-i18n-title="aria_top"><i class="fas fa-chevron-up"></i></button>
 <script>
