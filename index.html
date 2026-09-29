@@ -1454,15 +1454,15 @@ html.theme-transition * {
 .hero-new .hero-shade{position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(90deg,rgba(0,0,0,.52) 0%,rgba(0,0,0,.34) 32%,rgba(0,0,0,.10) 62%,rgba(0,0,0,0) 82%)}
 .hero-new-inner{position:relative;height:100%;display:flex;align-items:center;padding-top:150px;padding-bottom:150px}
 .hero-new-title{margin:0;max-width:min(100%,15.5em);color:#fff;font-size:clamp(2rem,min(4.5vw,8.4vh),4.6rem);line-height:1.14;letter-spacing:-.015em;font-weight:500;text-shadow:0 2px 24px rgba(0,0,0,.35)}
-.hero-new-title .hl{display:block;opacity:0;transform:translateY(10px);animation:heroLineIn .9s cubic-bezier(.22,.61,.36,1) forwards}
-.hero-new-title .hl-1{animation-delay:.4s}
-.hero-new-title .hl-2{animation-delay:.9s}
-.hero-new-title .hl-3{animation-delay:1.4s;font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;font-weight:600;font-size:1.16em;letter-spacing:0;line-height:1.22;margin-top:.14em}
-@keyframes heroLineIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.hero-continue{position:absolute;left:50%;bottom:max(150px,calc(env(safe-area-inset-bottom,0px) + 140px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;text-decoration:none;z-index:2;opacity:0;animation:heroFadeIn .8s ease 1.9s forwards;-webkit-tap-highlight-color:transparent}
+.hero-new-title .hl{display:block;opacity:0;filter:blur(9px);transform:translateY(4px);animation:heroLineReveal 1.6s cubic-bezier(.33,1,.68,1) forwards;will-change:opacity,filter,transform}
+.hero-new-title .hl-1{animation-delay:.3s}
+.hero-new-title .hl-2{animation-delay:1.1s}
+.hero-new-title .hl-3{animation-delay:2s;animation-duration:1.9s;font-family:"Playfair Display",Georgia,"Times New Roman",serif;font-style:italic;font-weight:600;font-size:1.16em;letter-spacing:0;line-height:1.22;margin-top:.14em}
+@keyframes heroLineReveal{0%{opacity:0;filter:blur(9px);transform:translateY(4px)}100%{opacity:1;filter:blur(0);transform:translateY(0)}}
+.hero-continue{position:absolute;left:50%;bottom:max(150px,calc(env(safe-area-inset-bottom,0px) + 140px));transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;color:#fff;text-decoration:none;z-index:2;opacity:0;animation:heroFadeIn 1s ease 3.85s forwards;-webkit-tap-highlight-color:transparent}
 .hero-continue-label{font-size:clamp(.92rem,1.25vw,1.05rem);font-weight:600;letter-spacing:.04em;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.6)}
 .hero-continue-circle{width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(224,192,64,.85);color:#E0C040;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.22);box-shadow:0 4px 16px rgba(0,0,0,.25);transition:background .25s ease,color .25s ease,box-shadow .25s ease,transform .25s ease}
-.hero-continue-arrow{display:block;animation:heroArrowNudge 2.6s ease-in-out 2.4s infinite}
+.hero-continue-arrow{display:block;animation:heroArrowNudge 2.6s ease-in-out 5s infinite}
 .hero-continue:hover .hero-continue-circle,.hero-continue:focus-visible .hero-continue-circle{background:#E0C040;color:#1a1200;box-shadow:0 6px 22px rgba(200,169,48,.4)}
 .hero-continue:hover .hero-continue-label,.hero-continue:focus-visible .hero-continue-label{color:#E0C040}
 .hero-continue:focus-visible{outline:2px solid #fff;outline-offset:6px;border-radius:12px}
@@ -1484,7 +1484,7 @@ html.theme-transition * {
   .hero-continue-arrow{width:22px;height:22px}
 }
 @media (prefers-reduced-motion:reduce){
-  .hero-new-title .hl,.hero-continue{animation:none;opacity:1;transform:none}
+  .hero-new-title .hl,.hero-continue{animation:none;opacity:1;filter:none;transform:none}
   .hero-new-title .hl-3,.hero-continue{transform:none}
   .hero-continue{transform:translateX(-50%)}
   .hero-continue-arrow{animation:none}
@@ -2462,23 +2462,6 @@ html.theme-transition * {
   box-shadow: 0 8px 24px rgba(245,197,24,0.45);
   filter: brightness(1.06);
 }
-/* Trust row */
-.rwa-trust {
-  display: flex;
-  align-items: flex-start;
-  gap: 9px;
-  font-size: 0.82rem;
-  color: #4A5568;
-  line-height: 1.5;
-}
-[data-theme="dark"] .rwa-trust { color: #7A90A8; }
-.rwa-trust i {
-  color: #1A6BB5;
-  margin-top: 2px;
-  flex-shrink: 0;
-  font-size: 0.95rem;
-}
-[data-theme="dark"] .rwa-trust i { color: #5BA8E0; }
 /* Early access row */
 .rwa-early-row {
   display: flex;
@@ -2501,14 +2484,6 @@ html.theme-transition * {
   display: block;
 }
 [data-theme="dark"] .rwa-early { color: #5BA8E0; }
-.rwa-release-text {
-  font-size: 0.88rem;
-  color: #3A4A5C;
-  margin-top: 3px;
-  display: block;
-  font-weight: 500;
-}
-[data-theme="dark"] .rwa-release-text { color: #8AA0BA; }
 /* ── RIGHT COLUMN ── */
 .rwa-col-right {
   display: flex;
@@ -2632,7 +2607,6 @@ html.theme-transition * {
   .rwa-desc      { order: 5; max-width: none; }
   .rwa-features  { order: 6; grid-template-columns: repeat(2, 1fr); }
   .rwa-cta-btn   { order: 7; width: 100%; }
-  .rwa-trust     { order: 8; }
   .rwa-early-row { order: 9; }
 
   /* Reveal: columns are display:contents, so override their hidden state
@@ -2818,18 +2792,11 @@ html.theme-transition * {
            rel="noopener noreferrer sponsored"
            data-i18n="rwa_cta">Пройти регистрацию</a>
 
-        <!-- Trust Row -->
-        <div class="rwa-trust">
-          <i class="fas fa-shield-halved"></i>
-          <span data-i18n-html="rwa_trust">Ваши данные защищены. Переход на официальный сайт RWA NFT.<br>Без спама и навязчивых рассылок.</span>
-        </div>
-
         <!-- Early Access -->
         <div class="rwa-early-row">
           <i class="fas fa-calendar-days"></i>
           <div>
             <span class="rwa-early" data-i18n="rwa_early">EARLY ACCESS · SEPTEMBER 2026</span>
-            <span class="rwa-release-text" data-i18n="rwa_release_text">Релиз ожидается в конце сентября 2026</span>
           </div>
         </div>
 
@@ -3646,9 +3613,7 @@ const T = {
     rwa_f3_val:"до $3M", rwa_f3_unit:"/ МЕС.", rwa_f3_lbl:"тариф Black",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"бесконтактная оплата",
     rwa_cta:"Пройти регистрацию",
-    rwa_trust:"Ваши данные защищены. Переход на официальный сайт RWA NFT.<br>Без спама и навязчивых рассылок.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
-    rwa_release_text:"Релиз ожидается в конце сентября 2026",
     rwa_b1_val:"185+ стран", rwa_b1_lbl:"оплата по всему миру",
     rwa_b2_val:"Упрощённый KYC", rwa_b2_lbl:"быстро и безопасно",
     rwa_b3_val:"USDT · USDC", rwa_b3_lbl:"пополнение без границ",
@@ -3818,9 +3783,7 @@ const T = {
     rwa_f3_val:"до $3M", rwa_f3_unit:"/ МІС.", rwa_f3_lbl:"тариф Black",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"безконтактна оплата",
     rwa_cta:"Пройти реєстрацію",
-    rwa_trust:"Ваші дані захищені. Перехід на офіційний сайт RWA NFT.<br>Без спаму та нав'язливих розсилок.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
-    rwa_release_text:"Реліз очікується наприкінці вересня 2026",
     rwa_b1_val:"185+ країн", rwa_b1_lbl:"оплата по всьому світу",
     rwa_b2_val:"Спрощений KYC", rwa_b2_lbl:"швидко та безпечно",
     rwa_b3_val:"USDT · USDC", rwa_b3_lbl:"поповнення без кордонів",
@@ -3990,9 +3953,7 @@ const T = {
     rwa_f3_val:"Up to $3M", rwa_f3_unit:"/ MO.", rwa_f3_lbl:"Black tier",
     rwa_f4_val:"CONTACTLESS", rwa_f4_lbl:"contactless payments",
     rwa_cta:"Complete registration",
-    rwa_trust:"Your data is protected. Redirecting to the official RWA NFT website.<br>No spam or unsolicited messages.",
     rwa_early:"EARLY ACCESS · SEPTEMBER 2026",
-    rwa_release_text:"Launch expected at the end of September 2026",
     rwa_b1_val:"185+ countries", rwa_b1_lbl:"payments worldwide",
     rwa_b2_val:"Simplified KYC", rwa_b2_lbl:"fast and secure",
     rwa_b3_val:"USDT · USDC", rwa_b3_lbl:"top up without limits",
